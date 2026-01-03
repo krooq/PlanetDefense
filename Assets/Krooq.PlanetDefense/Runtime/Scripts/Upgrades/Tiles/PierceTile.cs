@@ -9,7 +9,7 @@ namespace Krooq.PlanetDefense
         [SerializeField] private int _pierceBonus = 1;
         public int PierceBonus => _pierceBonus;
 
-        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain)
+        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager)
         {
             context.Stats.SetPierceCount(context.Stats.PierceCount + PierceBonus);
             return true;

@@ -9,7 +9,7 @@ namespace Krooq.PlanetDefense
         [SerializeField] private float _damageBonus = 5f;
         public float DamageBonus => _damageBonus;
 
-        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain)
+        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager)
         {
             context.Stats.SetDamage(context.Stats.Damage + DamageBonus);
             return true;

@@ -13,6 +13,7 @@ namespace Krooq.PlanetDefense
         [Header("Cannon")]
         [SerializeField] private float _fireRate = 0.5f;
         [SerializeField] private float _rotationSpeed = 10f;
+        [SerializeField] private float _projectileLifetime = 30f;
         [SerializeField] private Projectile _projectilePrefab;
 
         [Header("Meteors")]
@@ -31,6 +32,7 @@ namespace Krooq.PlanetDefense
         public int BaseHealth => _baseHealth;
         public float FireRate => _fireRate;
         public float RotationSpeed => _rotationSpeed;
+        public float ProjectileLifetime => _projectileLifetime;
         public Projectile ProjectilePrefab => _projectilePrefab;
         public Meteor MeteorPrefab => _meteorPrefab;
         public float MeteorSpawnHeight => _meteorSpawnHeight;

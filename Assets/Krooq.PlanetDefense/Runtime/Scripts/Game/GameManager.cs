@@ -60,7 +60,7 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        private void Start()
+        protected void Start()
         {
             StartGame();
         }
@@ -120,7 +120,7 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        private void GameOver()
+        protected void GameOver()
         {
             _currentState = GameState.GameOver;
             Debug.Log("Game Over");
@@ -129,5 +129,8 @@ namespace Krooq.PlanetDefense
         public Projectile SpawnProjectile() => Pool.Get(_gameData.ProjectilePrefab);
 
         public Meteor SpawnMeteor() => Pool.Get(_gameData.MeteorPrefab);
+
+        public void Despawn(GameObject obj) => Pool.Release(obj);
+        public void Despawn(Component obj) => Pool.Release(obj.gameObject);
     }
 }

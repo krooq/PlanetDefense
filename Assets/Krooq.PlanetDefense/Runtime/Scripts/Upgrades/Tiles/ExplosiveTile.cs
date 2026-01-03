@@ -12,12 +12,12 @@ namespace Krooq.PlanetDefense
         public float Radius => _radius;
         public float DamageMultiplier => _damageMultiplier;
 
-        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain)
+        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager)
         {
             if (context.ProjectileObject != null)
             {
-                var exp = context.ProjectileObject.AddComponent<ExplosionBehavior>();
-                exp.Initialize(Radius, DamageMultiplier, new List<UpgradeTile>(remainingChain), context.Stats.Clone());
+                // var exp = context.ProjectileObject.AddComponent<ExplosionBehavior>();
+                // exp.Initialize(Radius, DamageMultiplier, new List<UpgradeTile>(remainingChain), context.Stats.Clone());
             }
 
             return false; // Stop chain execution for this projectile

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Krooq.Common;
 using Krooq.Core;
+using Sirenix.OdinInspector;
 
 namespace Krooq.PlanetDefense
 {
@@ -9,14 +10,14 @@ namespace Krooq.PlanetDefense
         [SerializeField] private float _speed = 2f;
         [SerializeField] private float _health = 10f;
         [SerializeField] private int _resources = 10;
-        private Vector3 _direction = Vector3.down;
+        [SerializeField, ReadOnly] private Vector3 _direction = Vector3.down;
         protected GameManager GameManager => this.GetSingleton<GameManager>();
 
         public float Speed => _speed;
         public float Health => _health;
         public int Resources => _resources;
 
-        public void Initialize(float speed, float health, int resources, Vector3 direction)
+        public void Init(float speed, float health, int resources, Vector3 direction)
         {
             _speed = speed;
             _health = health;
@@ -34,7 +35,7 @@ namespace Krooq.PlanetDefense
             if (GameManager != null) GameManager.UnregisterMeteor(this);
         }
 
-        void Update()
+        protected void Update()
         {
             transform.position += _direction * Speed * Time.deltaTime;
         }
@@ -48,23 +49,23 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        void Die()
+        protected void Die()
         {
             GameManager.AddResources(Resources);
-            Destroy(gameObject);
+            GameManager.Despawn(gameObject);
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        protected void OnTriggerEnter2D(Collider2D other)
         {
             if (other.TryGetComponent<Building>(out var building))
             {
                 building.TakeDamage(1);
-                Destroy(gameObject);
+                GameManager.Despawn(gameObject);
             }
-            else if (other.CompareTag("Ground"))
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
                 GameManager.TakeDamage(1);
-                Destroy(gameObject);
+                GameManager.Despawn(gameObject);
             }
         }
     }

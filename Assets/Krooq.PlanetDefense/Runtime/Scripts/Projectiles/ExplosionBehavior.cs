@@ -2,19 +2,20 @@ using UnityEngine;
 using System.Collections.Generic;
 using Krooq.Common;
 using Krooq.Core;
+using Sirenix.OdinInspector;
 
 namespace Krooq.PlanetDefense
 {
     public class ExplosionBehavior : MonoBehaviour
     {
-        private float _radius;
-        private float _damageMult;
-        private List<UpgradeTile> _remainingChain;
-        private ProjectileStats _stats;
-        private bool _exploded = false;
-        private GameManager _gameManager => this.GetSingleton<GameManager>();
+        [SerializeField, ReadOnly] private float _radius;
+        [SerializeField, ReadOnly] private float _damageMult;
+        [SerializeField, ReadOnly] private List<UpgradeTile> _remainingChain;
+        [SerializeField, ReadOnly] private ProjectileStats _stats;
+        [SerializeField, ReadOnly] private bool _exploded = false;
+        protected GameManager GameManager => this.GetSingleton<GameManager>();
 
-        public void Initialize(float radius, float damageMult, List<UpgradeTile> chain, ProjectileStats stats)
+        public void Init(float radius, float damageMult, List<UpgradeTile> chain, ProjectileStats stats)
         {
             _radius = radius;
             _damageMult = damageMult;
@@ -22,7 +23,7 @@ namespace Krooq.PlanetDefense
             _stats = stats;
         }
 
-        void OnTriggerEnter2D(Collider2D other)
+        protected void OnTriggerEnter2D(Collider2D other)
         {
             if (_exploded) return;
 
@@ -32,12 +33,12 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        void Explode()
+        protected void Explode()
         {
             _exploded = true;
 
             // Deal AOE Damage
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _radius);
+            var hits = Physics2D.OverlapCircleAll(transform.position, _radius);
             foreach (var hit in hits)
             {
                 if (hit.TryGetComponent<Meteor>(out var meteor))
@@ -54,7 +55,7 @@ namespace Krooq.PlanetDefense
             {
                 // Spawn a carrier projectile to continue the chain
                 // We use the current rotation/direction
-                var p = _gameManager.SpawnProjectile();
+                var p = GameManager.SpawnProjectile();
                 p.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
                 // We need to initialize the projectile component on the new object
@@ -62,12 +63,12 @@ namespace Krooq.PlanetDefense
                 // The Projectile component needs Stats.
                 p.Initialize(transform.up, _stats.Clone()); // Initialize with current stats
 
-                var newContext = new ProjectileContext(p.gameObject, transform.position, transform.up, _stats.Clone(), false);
+                var newContext = new ProjectileContext(p, transform.position, transform.up, _stats.Clone(), false);
 
-                TileSequence.RunChain(newContext, _remainingChain);
+                TileSequence.RunChain(newContext, _remainingChain, GameManager);
             }
 
-            Destroy(gameObject);
+            GameManager.Despawn(gameObject);
         }
     }
 }

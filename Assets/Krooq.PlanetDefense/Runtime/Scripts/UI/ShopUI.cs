@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Krooq.Common;
 using Krooq.Core;
+using Sirenix.OdinInspector;
 
 namespace Krooq.PlanetDefense
 {
@@ -18,15 +19,15 @@ namespace Krooq.PlanetDefense
         [SerializeField] private TextMeshProUGUI _resourcesText;
         [SerializeField] private Button _nextWaveButton;
 
-        private bool _dirty = true;
+        [SerializeField, ReadOnly] private bool _dirty = true;
         protected GameManager GameManager => this.GetSingleton<GameManager>();
 
-        void Start()
+        protected void Start()
         {
             _nextWaveButton.onClick.AddListener(OnNextWave);
         }
 
-        void Update()
+        protected void Update()
         {
             if (GameManager.State == GameState.Shop)
             {
@@ -53,7 +54,7 @@ namespace Krooq.PlanetDefense
             _dirty = true;
         }
 
-        void UpdateUI()
+        protected void UpdateUI()
         {
             _resourcesText.text = $"Resources: {GameManager.Resources}";
 
@@ -76,9 +77,9 @@ namespace Krooq.PlanetDefense
             }
 
             // Populate Inventory
-            for (int i = 0; i < GameManager.OwnedUpgrades.Count; i++)
+            for (var i = 0; i < GameManager.OwnedUpgrades.Count; i++)
             {
-                int index = i;
+                var index = i;
                 var tile = GameManager.OwnedUpgrades[i];
                 var btnObj = Instantiate(_tileButtonPrefab, _inventoryContainer);
                 var btn = btnObj.GetComponent<Button>();
@@ -88,9 +89,9 @@ namespace Krooq.PlanetDefense
             }
 
             // Populate Active
-            for (int i = 0; i < GameManager.ActiveUpgrades.Count; i++)
+            for (var i = 0; i < GameManager.ActiveUpgrades.Count; i++)
             {
-                int index = i;
+                var index = i;
                 var tile = GameManager.ActiveUpgrades[i];
                 var btnObj = Instantiate(_tileButtonPrefab, _activeContainer);
                 var btn = btnObj.GetComponent<Button>();
@@ -100,7 +101,7 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        void BuyTile(UpgradeTile tile)
+        protected void BuyTile(UpgradeTile tile)
         {
             if (GameManager.SpendResources(tile.Cost))
             {
@@ -109,7 +110,7 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        void EquipTile(int inventoryIndex)
+        protected void EquipTile(int inventoryIndex)
         {
             if (GameManager.ActiveUpgrades.Count < GameManager.Data.MaxSlots)
             {
@@ -120,7 +121,7 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        void UnequipTile(int activeIndex)
+        protected void UnequipTile(int activeIndex)
         {
             var tile = GameManager.ActiveUpgrades[activeIndex];
             GameManager.ActiveUpgrades.RemoveAt(activeIndex);
@@ -128,7 +129,7 @@ namespace Krooq.PlanetDefense
             SetDirty();
         }
 
-        void OnNextWave()
+        protected void OnNextWave()
         {
             GameManager.NextWave();
         }

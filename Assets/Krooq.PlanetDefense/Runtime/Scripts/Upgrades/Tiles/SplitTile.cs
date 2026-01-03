@@ -10,14 +10,7 @@ namespace Krooq.PlanetDefense
         [SerializeField] private float _splitAngle = 15f;
         public float SplitAngle => _splitAngle;
 
-        protected GameManager GameManager => this.GetSingleton<GameManager>();
-
-        private T GetSingleton<T>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain)
+        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager)
         {
             // Rotate current
             Quaternion rot1 = Quaternion.Euler(0, 0, -SplitAngle);
@@ -31,20 +24,19 @@ namespace Krooq.PlanetDefense
             {
                 context.ProjectileObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, context.Direction);
                 // Update projectile component if it exists
-                var p = context.ProjectileObject.GetComponent<Projectile>();
-                if (p != null) p.Initialize(context.Direction, context.Stats);
+                if (context.ProjectileObject != null) context.ProjectileObject.Initialize(context.Direction, context.Stats);
             }
 
             // Spawn new
-            var newP = GameManager.SpawnProjectile();
+            var newP = gameManager.SpawnProjectile();
             newP.transform.SetPositionAndRotation(context.Position, Quaternion.LookRotation(Vector3.forward, rot2 * originalDir));
             newP.Initialize(rot2 * originalDir, context.Stats.Clone());
 
             // Create context for new projectile
-            var newContext = new ProjectileContext(newP.gameObject, context.Position, rot2 * originalDir, context.Stats.Clone(), context.IsSetupPhase);
+            var newContext = new ProjectileContext(newP, context.Position, rot2 * originalDir, context.Stats.Clone(), context.IsSetupPhase);
 
             // Run chain on new projectile
-            TileSequence.RunChain(newContext, remainingChain);
+            TileSequence.RunChain(newContext, remainingChain, gameManager);
 
             // Re-initialize with potentially modified stats
             newP.Initialize(newContext.Direction, newContext.Stats);

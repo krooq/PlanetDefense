@@ -16,6 +16,7 @@ MonoBehaviour:
   _baseHealth: 10
   _fireRate: 0.5
   _rotationSpeed: 10
+  _projectileLifetime: 30
   _projectilePrefab: {fileID: 8491378065012396037, guid: 0ac105268fcd8d548aa6cf0f11ccd45b, type: 3}
   _meteorPrefab: {fileID: -3283402286077190664, guid: 52dd661294498034e83e684275db9a7e, type: 3}
   _meteorSpawnHeight: 10
