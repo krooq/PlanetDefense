@@ -31,7 +31,7 @@ namespace Krooq.PlanetDefense
 
                 if (tileUI.IsShopItem)
                 {
-                    if (GameManager.SpendResources(tileUI.TileData.Cost))
+                    if (GameManager.SpendResources(tileUI.Upgrade.Cost))
                     {
                         // Add to this slot
                         // If slot is occupied, replace? Or fail?
@@ -51,7 +51,7 @@ namespace Krooq.PlanetDefense
                             GameManager.AddResources(oldTile.Cost / 2);
                         }
 
-                        GameManager.ActiveUpgrades[_slotIndex] = tileUI.TileData;
+                        GameManager.ActiveUpgrades[_slotIndex] = tileUI.Upgrade;
 
                         // Refresh UI handled by ShopUI Update loop
                         // But we should probably trigger an event or set dirty

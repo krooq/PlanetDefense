@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Krooq.PlanetDefense
 {
-    [CreateAssetMenu(menuName = "PlanetDefense/Tiles/Explosive")]
-    public class ExplosiveTile : UpgradeTile
+    [CreateAssetMenu(menuName = "PlanetDefense/Upgrades/Explosive")]
+    public class Explosive : Upgrade
     {
         [SerializeField] private float _radius = 2f;
         [SerializeField] private float _damageMultiplier = 0.5f;
@@ -12,7 +12,7 @@ namespace Krooq.PlanetDefense
         public float Radius => _radius;
         public float DamageMultiplier => _damageMultiplier;
 
-        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager)
+        public override bool Process(ProjectileContext context, List<Upgrade> remainingChain, GameManager gameManager)
         {
             if (context.ProjectileObject != null)
             {

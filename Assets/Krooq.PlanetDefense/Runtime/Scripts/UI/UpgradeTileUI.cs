@@ -12,25 +12,25 @@ namespace Krooq.PlanetDefense
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        private UpgradeTile _tileData;
+        private Upgrade _upgrade;
         private bool _isShopItem;
         private Transform _originalParent;
         private Vector3 _originalPosition;
 
-        public UpgradeTile TileData => _tileData;
+        public Upgrade Upgrade => _upgrade;
         public bool IsShopItem => _isShopItem;
 
-        public void Init(UpgradeTile tile, bool isShopItem, UnityAction onClick = null)
+        public void Init(Upgrade upgrade, bool isShopItem, UnityAction onClick = null)
         {
-            _tileData = tile;
+            _upgrade = upgrade;
             _isShopItem = isShopItem;
 
             if (_text != null)
             {
                 if (isShopItem)
-                    _text.text = $"{tile.TileName} (${tile.Cost})";
+                    _text.text = $"{upgrade.TileName} (${upgrade.Cost})";
                 else
-                    _text.text = tile.TileName;
+                    _text.text = upgrade.TileName;
             }
 
             if (_button != null && onClick != null)

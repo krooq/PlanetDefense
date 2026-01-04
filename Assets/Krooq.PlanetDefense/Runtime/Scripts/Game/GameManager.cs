@@ -24,13 +24,13 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private GameState _currentState;
         [SerializeField, ReadOnly] private int _baseHealth;
         [SerializeField, ReadOnly] private HashSet<Meteor> _activeMeteors = new();
-        [SerializeField, ReadOnly] private List<UpgradeTile> _activeUpgrades = new();
+        [SerializeField, ReadOnly] private List<Upgrade> _activeUpgrades = new();
 
         public GameData Data => _gameData;
         public int Resources => _currentResources;
         public GameState State => _currentState;
 
-        public List<UpgradeTile> ActiveUpgrades => _activeUpgrades;
+        public List<Upgrade> ActiveUpgrades => _activeUpgrades;
 
 
         protected MultiGameObjectPool Pool => this.GetSingleton<MultiGameObjectPool>();

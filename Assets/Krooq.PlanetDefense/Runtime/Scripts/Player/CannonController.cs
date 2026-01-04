@@ -73,7 +73,7 @@ namespace Krooq.PlanetDefense
 
             var context = new ProjectileContext(p, _firePoint.position, _firePoint.up, stats, true);
 
-            TileSequence.RunChain(context, GameManager.ActiveUpgrades, GameManager);
+            UpgradeSequence.RunChain(context, GameManager.ActiveUpgrades, GameManager);
 
             // Finalize
             p.Init(context.Direction, context.Stats);
@@ -86,7 +86,6 @@ namespace Krooq.PlanetDefense
 
             _recoilTransform.BumpPosition(_firePoint.localPosition - Vector3.up * 10f);
             AudioManager.PlaySound(GameManager.Data.CannonFireSound);
-
         }
     }
 }

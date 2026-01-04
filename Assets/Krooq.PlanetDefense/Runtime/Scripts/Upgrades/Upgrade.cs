@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Krooq.PlanetDefense
 {
-    public abstract class UpgradeTile : ScriptableObject
+    public abstract class Upgrade : ScriptableObject
     {
         [SerializeField] private string _tileName;
         [SerializeField] private int _cost;
@@ -14,6 +14,6 @@ namespace Krooq.PlanetDefense
         public Color TileColor => _tileColor;
 
         // Returns true if the chain should continue immediately, false if this tile stops execution (e.g. Explosive waiting for impact)
-        public abstract bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager);
+        public abstract bool Process(ProjectileContext context, List<Upgrade> remainingChain, GameManager gameManager);
     }
 }

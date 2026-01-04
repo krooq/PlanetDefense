@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb5cc07fd4771064b8b02794fcdfd512, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.GameData
-  _startingResources: 100
+  _startingResources: 0
   _baseHealth: 10
   _fireRate: 0.5
   _rotationSpeed: 10
   _projectileLifetime: 30
+  _recoilForce: 5
   _projectilePrefab: {fileID: 8491378065012396037, guid: 0ac105268fcd8d548aa6cf0f11ccd45b, type: 3}
   _cannonFireSound: {fileID: 6418180475301049370, guid: 0ca959c278502a744818b3e75e57799c, type: 2}
   _meteorPrefab: {fileID: -3283402286077190664, guid: 52dd661294498034e83e684275db9a7e, type: 3}
@@ -24,8 +25,9 @@ MonoBehaviour:
   _meteorSpawnWidth: 16
   _meteorBaseSpeed: 2
   _meteorBaseHealth: 10
-  _resourcesPerMeteor: 10
-  _availableUpgrades: []
+  _resourcesPerMeteor: 1
+  _availableUpgrades:
+  - {fileID: 11400000, guid: 0e7b2a3db4534b246bfab902a196e35e, type: 2}
   _maxSlots: 5
   _upgradeTilePrefab: {fileID: 3834534628122088379, guid: fa161c7ab58755646bfa73ebbba2fe04, type: 3}
   _upgradeSlotPrefab: {fileID: 1065834685477414293, guid: f2b82f5477973cd4d84159641376818d, type: 3}

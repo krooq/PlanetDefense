@@ -14,7 +14,8 @@ namespace Krooq.PlanetDefense
         [Header("Cannon")]
         [SerializeField] private float _fireRate = 0.5f;
         [SerializeField] private float _rotationSpeed = 10f;
-        [SerializeField] private float _projectileLifetime = 30f;        [SerializeField] private float _recoilForce = 5f;        [SerializeField] private Projectile _projectilePrefab;
+        [SerializeField] private float _projectileLifetime = 30f;
+        [SerializeField] private Projectile _projectilePrefab;
         [SerializeField] private AudioResource _cannonFireSound;
 
         [Header("Meteors")]
@@ -26,7 +27,7 @@ namespace Krooq.PlanetDefense
         [SerializeField] private int _resourcesPerMeteor = 1;
 
         [Header("Shop")]
-        [SerializeField] private List<UpgradeTile> _availableUpgrades;
+        [SerializeField] private List<Upgrade> _availableUpgrades;
         [SerializeField] private int _maxSlots = 5;
         [SerializeField] private UpgradeTileUI _upgradeTilePrefab;
         [SerializeField] private UpgradeSlotUI _upgradeSlotPrefab;
@@ -38,7 +39,8 @@ namespace Krooq.PlanetDefense
         public int BaseHealth => _baseHealth;
         public float FireRate => _fireRate;
         public float RotationSpeed => _rotationSpeed;
-        public float ProjectileLifetime => _projectileLifetime;        public float RecoilForce => _recoilForce;        public Projectile ProjectilePrefab => _projectilePrefab;
+        public float ProjectileLifetime => _projectileLifetime;
+        public Projectile ProjectilePrefab => _projectilePrefab;
         public AudioResource CannonFireSound => _cannonFireSound;
         public Meteor MeteorPrefab => _meteorPrefab;
         public float MeteorSpawnHeight => _meteorSpawnHeight;
@@ -46,7 +48,7 @@ namespace Krooq.PlanetDefense
         public float MeteorBaseSpeed => _meteorBaseSpeed;
         public int MeteorBaseHealth => _meteorBaseHealth;
         public int ResourcesPerMeteor => _resourcesPerMeteor;
-        public List<UpgradeTile> AvailableUpgrades => _availableUpgrades;
+        public List<Upgrade> AvailableUpgrades => _availableUpgrades;
         public int MaxSlots => _maxSlots;
         public UpgradeTileUI UpgradeTilePrefab => _upgradeTilePrefab;
         public UpgradeSlotUI UpgradeSlotPrefab => _upgradeSlotPrefab;

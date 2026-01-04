@@ -4,13 +4,13 @@ using System;
 
 namespace Krooq.PlanetDefense
 {
-    [CreateAssetMenu(menuName = "PlanetDefense/Tiles/Split")]
-    public class SplitTile : UpgradeTile
+    [CreateAssetMenu(menuName = "PlanetDefense/Upgrades/Split")]
+    public class Split : Upgrade
     {
         [SerializeField] private float _splitAngle = 15f;
         public float SplitAngle => _splitAngle;
 
-        public override bool Process(ProjectileContext context, List<UpgradeTile> remainingChain, GameManager gameManager)
+        public override bool Process(ProjectileContext context, List<Upgrade> remainingChain, GameManager gameManager)
         {
             // Rotate current
             Quaternion rot1 = Quaternion.Euler(0, 0, -SplitAngle);
@@ -36,7 +36,7 @@ namespace Krooq.PlanetDefense
             var newContext = new ProjectileContext(newProjectile, context.Position, rot2 * originalDir, context.Stats.Clone(), context.IsSetupPhase);
 
             // Run chain on new projectile
-            TileSequence.RunChain(newContext, remainingChain, gameManager);
+            UpgradeSequence.RunChain(newContext, remainingChain, gameManager);
 
             // Re-initialize with potentially modified stats
             newProjectile.Init(newContext.Direction, newContext.Stats);

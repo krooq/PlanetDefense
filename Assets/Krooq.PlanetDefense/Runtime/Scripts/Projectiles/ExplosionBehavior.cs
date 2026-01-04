@@ -10,13 +10,13 @@ namespace Krooq.PlanetDefense
     {
         [SerializeField, ReadOnly] private float _radius;
         [SerializeField, ReadOnly] private float _damageMult;
-        [SerializeField, ReadOnly] private List<UpgradeTile> _remainingChain;
+        [SerializeField, ReadOnly] private List<Upgrade> _remainingChain;
         [SerializeField, ReadOnly] private ProjectileStats _stats;
         [SerializeField, ReadOnly] private bool _exploded = false;
 
         protected GameManager GameManager => this.GetSingleton<GameManager>();
 
-        public void Init(float radius, float damageMult, List<UpgradeTile> chain, ProjectileStats stats)
+        public void Init(float radius, float damageMult, List<Upgrade> chain, ProjectileStats stats)
         {
             _radius = radius;
             _damageMult = damageMult;
@@ -66,7 +66,7 @@ namespace Krooq.PlanetDefense
 
                 var newContext = new ProjectileContext(p, transform.position, transform.up, _stats.Clone(), false);
 
-                TileSequence.RunChain(newContext, _remainingChain, GameManager);
+                UpgradeSequence.RunChain(newContext, _remainingChain, GameManager);
             }
 
             GameManager.Despawn(gameObject);
