@@ -121,8 +121,9 @@ namespace Krooq.PlanetDefense
         protected void OnTriggerEnter2D(Collider2D other)
         {
             foreach (var mod in _modifiers) mod.Process(this, ModifierTrigger.OnHit);
-
-            var threat = other.attachedRigidbody.gameObject.GetCachedComponent<Threat>();
+            var rb = other.attachedRigidbody;
+            var go = rb != null ? rb.gameObject : other.gameObject;
+            var threat = go.GetCachedComponent<Threat>();
             if (threat != null)
             {
                 threat.TakeDamage(Damage);
