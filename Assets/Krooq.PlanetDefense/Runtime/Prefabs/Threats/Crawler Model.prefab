@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.ThreatModel
   _threat: {fileID: 0}
-  _bumpInterval: 0.5
+  _hopInterval: 0.3
 --- !u!114 &7850316182137866888
 MonoBehaviour:
   m_ObjectHideFlags: 0

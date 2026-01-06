@@ -40,26 +40,31 @@ namespace Krooq.PlanetDefense
             _pivot.rotation = Quaternion.Lerp(_pivot.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * rotationSpeed);
         }
 
-        public void TryFire(PlayerTargetingReticle targetingReticle)
+        public Projectile TryFire(PlayerTargetingReticle targetingReticle, ProjectileWeaponData weaponData, IEnumerable<Modifier> modifiers, float damageMultiplier = 1f)
         {
-            if (_fireTimer <= 0 && GameManager.SelectedWeapon != null)
+            if (_fireTimer <= 0 && weaponData != null)
             {
-                Fire(targetingReticle);
+                return Fire(targetingReticle, weaponData, modifiers, damageMultiplier);
             }
+            return null;
         }
 
-        private void Fire(PlayerTargetingReticle targetingReticle)
+        private Projectile Fire(PlayerTargetingReticle targetingReticle, ProjectileWeaponData weaponData, IEnumerable<Modifier> modifiers, float damageMultiplier)
         {
-            var p = GameManager.SpawnProjectile();
-            if (p == null) return;
+            var p = GameManager.Spawn(weaponData.ProjectilePrefab);
+            if (p == null) return null;
 
             p.transform.SetPositionAndRotation(_firePoint.position, _firePoint.rotation);
 
-            // Get Modifiers
-            var modifiers = GameManager.ActiveModifiers;
-
             // Finalize
-            p.Init(_firePoint.up, GameManager.SelectedWeapon, modifiers, targetingReticle);
+            p.Init(_firePoint.up, weaponData, modifiers, targetingReticle);
+
+            if (damageMultiplier != 1f)
+            {
+                // Create a temporary modifier for damage
+                var dmgMod = new StatModifier(GameManager.Data.DamageStat, damageMultiplier, StatModifier.ModifierType.Multiplicative);
+                p.AddStatModifier(dmgMod);
+            }
 
             // Set Fire Timer based on projectile stat
             _fireTimer = 1f / p.FireRate;
@@ -71,7 +76,9 @@ namespace Krooq.PlanetDefense
             }
 
             // _recoilTransform.BumpPosition(_firePoint.localPosition - Vector3.up * 10f);
-            if (GameManager.SelectedWeapon.FireSound != null) AudioManager.PlaySound(GameManager.SelectedWeapon.FireSound);
+            if (weaponData.FireSound != null) AudioManager.PlaySound(weaponData.FireSound);
+
+            return p;
         }
     }
 }

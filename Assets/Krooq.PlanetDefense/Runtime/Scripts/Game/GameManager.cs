@@ -20,27 +20,35 @@ namespace Krooq.PlanetDefense
     {
         [SerializeField] private GameData _gameData;
 
-        [SerializeField, ReadOnly] private int _resources;
+        [Header("State")]
         [SerializeField, ReadOnly] private int _wave = 1;
         [SerializeField, ReadOnly] private GameState _currentState;
-        [SerializeField, ReadOnly] private int _baseHealth;
         [SerializeField, ReadOnly] private List<Threat> _threats = new();
-        [SerializeField, ReadOnly] private List<Modifier> _modifiers = new();
-        [SerializeField, ReadOnly] private ProjectileWeaponData _selectedWeapon;
 
         public GameData Data => _gameData;
-        public int Resources => _resources;
+        public int Resources => Player.Resources;
+        public float CurrentMana => Player.CurrentMana;
         public GameState State => _currentState;
 
-        public IEnumerable<Modifier> ActiveModifiers => _modifiers.Where(m => m != null);
-        public ProjectileWeaponData SelectedWeapon => _selectedWeapon;
-
+        public IReadOnlyList<Spell> Spells => Player.Spells;
+        public ProjectileWeaponData SelectedWeapon => Player.SelectedWeapon;
 
         protected MultiGameObjectPool Pool => this.GetSingleton<MultiGameObjectPool>();
         protected WaveManager WaveManager => this.GetSingleton<WaveManager>();
+        protected Player Player => this.GetSingleton<Player>();
 
         public int ThreatCount => _threats.Count;
         public bool HasThreats => _threats.Count > 0;
+
+        private void Start()
+        {
+            StartGame();
+        }
+
+        private void Update()
+        {
+            // Mana regen handled by Player
+        }
 
         public void Register(Threat threat)
         {
@@ -54,40 +62,13 @@ namespace Krooq.PlanetDefense
 
         protected void Awake()
         {
-            if (_gameData != null)
-            {
-                _resources = _gameData.StartingResources;
-                _baseHealth = _gameData.BaseHealth;
-                _selectedWeapon = _gameData.DefaultWeapon;
-                _modifiers = new List<Modifier>(new Modifier[_gameData.MaxSlots]);
-            }
-        }
-
-        protected void Start()
-        {
-            StartGame();
+            // Initialization handled in Player for player stats
         }
 
         public void StartGame()
         {
-            _resources = _gameData.StartingResources;
             _wave = 1;
-            _baseHealth = _gameData.BaseHealth;
-
-            for (int i = 0; i < _modifiers.Count; i++)
-            {
-                if (i < _gameData.StartingModifiers.Count)
-                {
-                    _modifiers[i] = _gameData.StartingModifiers[i];
-                }
-                else
-                {
-                    _modifiers[i] = null;
-                }
-            }
-
-            // Add some default modifiers for testing if needed, or let player buy them
-
+            if (Player) Player.ResetPlayer();
             StartWave();
         }
 
@@ -109,68 +90,13 @@ namespace Krooq.PlanetDefense
             StartWave();
         }
 
-        public void AddResources(int amount)
-        {
-            _resources += amount;
-        }
-
-        public bool SpendResources(int amount)
-        {
-            if (_resources >= amount)
-            {
-                _resources -= amount;
-                return true;
-            }
-            return false;
-        }
-
-        public void TakeDamage(int amount)
-        {
-            _baseHealth -= amount;
-            if (_baseHealth <= 0)
-            {
-                GameOver();
-            }
-        }
-
-        protected void GameOver()
+        public void GameOver()
         {
             _currentState = GameState.GameOver;
             Debug.Log("Game Over");
         }
 
-        public void SelectWeapon(ProjectileWeaponData weapon)
-        {
-            _selectedWeapon = weapon;
-        }
-
-        public void SetModifier(int index, Modifier modifier)
-        {
-            if (index >= 0 && index < _modifiers.Count)
-            {
-                var oldModifier = _modifiers[index];
-                if (oldModifier != null)
-                {
-                    AddResources(oldModifier.Cost / 2);
-                }
-
-                _modifiers[index] = modifier;
-            }
-        }
-
-        public Projectile SpawnProjectile()
-        {
-            if (_selectedWeapon == null || _selectedWeapon.ProjectilePrefab == null) return null;
-            return Pool.Get(_selectedWeapon.ProjectilePrefab);
-        }
-
-        public Threat SpawnThreat(Threat prefab) => Pool.Get(prefab);
-
-        public ModifierTileUI SpawnModifierTileUI(ModifierTileUI prefab) => Pool.Get(prefab);
-
-        public ModifierSlotUI SpawnModifierSlotUI(ModifierSlotUI prefab) => Pool.Get(prefab);
-
-        public void Despawn(GameObject obj) => Pool.Release(obj);
-        public void Despawn(Component obj) => Pool.Release(obj.gameObject);
+        public T Spawn<T>(T prefab) where T : Object => Pool.Get(prefab);
+        public void Despawn(Object obj) => Pool.Release(obj);
     }
 }

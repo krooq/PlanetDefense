@@ -11,6 +11,8 @@ namespace Krooq.PlanetDefense
         [Header("Player Stats")]
         [SerializeField] private int _startingResources = 0;
         [SerializeField] private int _baseHealth = 10;
+        [SerializeField] private int _baseMana = 100;
+        [SerializeField] private int _baseManaRegen = 5;
         [SerializeField] private List<Modifier> _startingModifiers;
 
         [Header("Weapons")]
@@ -55,16 +57,19 @@ namespace Krooq.PlanetDefense
         [SerializeField] private float _minSpawnRate = 0.2f;
 
         [Header("Shop")]
-        [SerializeField] private List<Modifier> _availableModifiers;
-        [SerializeField] private int _maxSlots = 5;
-        [SerializeField] private ModifierTileUI _modifierTilePrefab;
-        [SerializeField] private ModifierSlotUI _modifierSlotPrefab;
+        [SerializeField] private List<Spell> _availableSpells;
+        [SerializeField] private int _maxSlots = 4;
+        [SerializeField] private SpellTileUI _spellTilePrefab;
+        [SerializeField] private SpellSlotUI _spellSlotPrefab;
 
         [Header("Audio")]
         [SerializeField] private AudioSource _audioSourcePrefab;
 
+
         public int StartingResources => _startingResources;
         public int BaseHealth => _baseHealth;
+        public int BaseMana => _baseMana;
+        public int BaseManaRegen => _baseManaRegen;
         public IReadOnlyList<Modifier> StartingModifiers => _startingModifiers;
         public IReadOnlyList<ProjectileWeaponData> AvailableWeapons => _availableWeapons;
         public ProjectileWeaponData DefaultWeapon => _defaultWeapon;
@@ -91,10 +96,10 @@ namespace Krooq.PlanetDefense
         public float SpawnRateDecreasePerWave => _spawnRateDecreasePerWave;
         public float MinSpawnRate => _minSpawnRate;
 
-        public List<Modifier> AvailableModifiers => _availableModifiers;
+        public List<Spell> AvailableSpells => _availableSpells;
         public int MaxSlots => _maxSlots;
-        public ModifierTileUI ModifierTilePrefab => _modifierTilePrefab;
-        public ModifierSlotUI ModifierSlotPrefab => _modifierSlotPrefab;
+        public SpellTileUI SpellTilePrefab => _spellTilePrefab;
+        public SpellSlotUI SpellSlotPrefab => _spellSlotPrefab;
         public AudioSource AudioSourcePrefab => _audioSourcePrefab;
     }
 }

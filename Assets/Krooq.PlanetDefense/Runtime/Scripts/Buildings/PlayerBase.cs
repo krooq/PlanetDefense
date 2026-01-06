@@ -6,11 +6,11 @@ namespace Krooq.PlanetDefense
 {
     public class PlayerBase : MonoBehaviour
     {
-        protected GameManager GameManager => this.GetSingleton<GameManager>();
+        protected Player Player => this.GetSingleton<Player>();
 
         public void TakeDamage(int amount)
         {
-            GameManager.TakeDamage(amount);
+            Player.TakeDamage(amount);
         }
     }
 }

@@ -15,8 +15,8 @@ namespace Krooq.PlanetDefense
         public bool IsGroundTarget { get; private set; }
 
         private Camera _cam;
+        protected Player Player => this.GetSingleton<Player>();
         protected GameManager GameManager => this.GetSingleton<GameManager>();
-        protected InputManager InputManager => this.GetSingleton<InputManager>();
 
         private void Start()
         {
@@ -37,7 +37,7 @@ namespace Krooq.PlanetDefense
 
         private void UpdateReticle()
         {
-            var mouseScreenPos = InputManager.PointAction.ReadValue<Vector2>();
+            var mouseScreenPos = Player.Inputs.PointAction.ReadValue<Vector2>();
             if (_cam == null) return;
 
             var worldPos = _cam.ScreenToWorldPoint(mouseScreenPos);

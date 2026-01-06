@@ -80,7 +80,7 @@ namespace Krooq.PlanetDefense
                 spawnPos = new Vector3(spawnX, spawnY, 0);
             }
 
-            var threat = GameManager.SpawnThreat(GameManager.Data.ThreatPrefab);
+            var threat = GameManager.Spawn(GameManager.Data.ThreatPrefab);
             threat.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
             threat.Init(threatData);
         }

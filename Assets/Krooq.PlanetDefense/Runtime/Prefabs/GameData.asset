@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.GameData
   _startingResources: 0
   _baseHealth: 10
+  _baseMana: 100
+  _baseManaRegen: 5
   _startingModifiers:
   - {fileID: 11400000, guid: ed1f61c40eed7cb47b6e4121301d9dac, type: 2}
   _availableWeapons:
@@ -43,10 +45,8 @@ MonoBehaviour:
   _baseSpawnRate: 2
   _spawnRateDecreasePerWave: 0.1
   _minSpawnRate: 0.2
-  _availableModifiers:
-  - {fileID: 11400000, guid: 8ce0efa9b95f53c4cad7739ad4eecdee, type: 2}
-  - {fileID: 11400000, guid: ed1f61c40eed7cb47b6e4121301d9dac, type: 2}
-  _maxSlots: 5
-  _modifierTilePrefab: {fileID: 3834534628122088379, guid: fa161c7ab58755646bfa73ebbba2fe04, type: 3}
-  _modifierSlotPrefab: {fileID: 1065834685477414293, guid: f2b82f5477973cd4d84159641376818d, type: 3}
+  _availableSpells: []
+  _maxSlots: 4
+  _spellTilePrefab: {fileID: 3834534628122088379, guid: fa161c7ab58755646bfa73ebbba2fe04, type: 3}
+  _spellSlotPrefab: {fileID: 1065834685477414293, guid: f2b82f5477973cd4d84159641376818d, type: 3}
   _audioSourcePrefab: {fileID: 6661895296412262151, guid: 60f5935b6112d794bbd5632723a85de9, type: 3}

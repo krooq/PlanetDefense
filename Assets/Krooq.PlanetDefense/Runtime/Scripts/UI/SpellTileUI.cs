@@ -8,36 +8,37 @@ using Krooq.Core;
 
 namespace Krooq.PlanetDefense
 {
-    public class ModifierTileUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+    public class SpellTileUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
     {
         [SerializeField] private Button _button;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private CanvasGroup _canvasGroup;
 
-        private Modifier _modifier;
+        private Spell _spell;
         private bool _isShopItem;
         private Transform _originalParent;
         private Vector3 _originalPosition;
         private int _slotIndex = -1;
 
-        protected GameManager GameManager => this.GetSingleton<GameManager>();
+        protected Player Player => this.GetSingleton<Player>();
         protected ShopUI ShopUI => this.GetSingleton<ShopUI>();
+        protected GameManager GameManager => this.GetSingleton<GameManager>();
 
-        public Modifier Modifier => _modifier;
+        public Spell Spell => _spell;
         public bool IsShopItem => _isShopItem;
 
-        public void Init(Modifier modifier, bool isShopItem, int slotIndex = -1, UnityAction onClick = null)
+        public void Init(Spell spell, bool isShopItem, int slotIndex = -1, UnityAction onClick = null)
         {
-            _modifier = modifier;
+            _spell = spell;
             _isShopItem = isShopItem;
             _slotIndex = slotIndex;
 
             if (_text != null)
             {
                 if (isShopItem)
-                    _text.text = $"{modifier.TileName} (${modifier.Cost})";
+                    _text.text = $"{spell.SpellName} (${spell.ShopCost})";
                 else
-                    _text.text = modifier.TileName;
+                    _text.text = spell.SpellName;
             }
 
             if (_button != null && onClick != null)
@@ -53,7 +54,7 @@ namespace Krooq.PlanetDefense
             {
                 _button.onClick.RemoveAllListeners();
             }
-            _modifier = null;
+            _spell = null;
             _slotIndex = -1;
         }
 
@@ -64,12 +65,12 @@ namespace Krooq.PlanetDefense
                 if (!_isShopItem && GameManager.State == GameState.Shop && _slotIndex != -1)
                 {
                     // Sell
-                    GameManager.AddResources(_modifier.Cost); // 100% refund for now
-                    GameManager.SetModifier(_slotIndex, null);
+                    Player.AddResources(_spell.ShopCost); // 100% refund for now
+                    Player.SetSpell(_slotIndex, null);
 
                     if (ShopUI) ShopUI.SetDirty();
-                    var modifierUI = this.GetSingleton<ModifierUI>();
-                    if (modifierUI) modifierUI.Refresh();
+                    var spellBarUI = this.GetSingleton<SpellBarUI>();
+                    if (spellBarUI) spellBarUI.Refresh();
                 }
             }
         }
@@ -78,11 +79,6 @@ namespace Krooq.PlanetDefense
         {
             _originalParent = transform.parent;
             _originalPosition = transform.position;
-
-            // Move to root or high level canvas to draw over everything
-            // For now, just keeping parent but disabling layout might be tricky.
-            // Better to reparent to the ShopUI root or a "DragLayer".
-            // Assuming ShopUI has a Canvas.
 
             _canvasGroup.blocksRaycasts = false;
         }
@@ -96,19 +92,6 @@ namespace Krooq.PlanetDefense
         {
             _canvasGroup.blocksRaycasts = true;
             transform.position = _originalPosition;
-            // If dropped successfully, the slot will handle logic and UI refresh will happen.
-            // If not dropped on a slot, we just snap back (visual reset).
-
-            // If it was an active tile and dropped outside (not on a slot), maybe sell?
-            if (!_isShopItem && !eventData.pointerEnter)
-            {
-                // Sell logic here? Or check if dropped on "Sell Area".
-                // User said "sold from a modifier slot".
-                // If we drag it out into nothingness, that could be selling.
-
-                // Trigger sell event?
-                // For now, let's leave it.
-            }
         }
     }
 }

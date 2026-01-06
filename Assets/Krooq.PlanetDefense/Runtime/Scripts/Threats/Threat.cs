@@ -61,7 +61,7 @@ namespace Krooq.PlanetDefense
 
         protected void Die(bool giveResources = true)
         {
-            if (giveResources) GameManager.AddResources(Resources);
+            if (giveResources) this.GetSingleton<Player>().AddResources(Resources);
             GameManager.Despawn(gameObject);
         }
 

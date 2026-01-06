@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Krooq.PlanetDefense
 {
-    public class ModifierUI : MonoBehaviour
+    public class SpellBarUI : MonoBehaviour
     {
-        [SerializeField] private Transform _modifierSlotContainer;
+        [SerializeField] private Transform _spellSlotContainer;
 
         protected GameManager GameManager => this.GetSingleton<GameManager>();
 
@@ -16,8 +16,8 @@ namespace Krooq.PlanetDefense
         {
             for (int i = 0; i < GameManager.Data.MaxSlots; i++)
             {
-                var slot = GameManager.SpawnModifierSlotUI(GameManager.Data.ModifierSlotPrefab);
-                slot.transform.SetParent(_modifierSlotContainer, false);
+                var slot = GameManager.Spawn(GameManager.Data.SpellSlotPrefab);
+                slot.transform.SetParent(_spellSlotContainer, false);
                 slot.Init(i);
             }
         }
@@ -25,23 +25,25 @@ namespace Krooq.PlanetDefense
         public void Refresh()
         {
             // Clear Active Slots (remove children of slots)
-            foreach (Transform slotTransform in _modifierSlotContainer)
+            foreach (Transform slotTransform in _spellSlotContainer)
             {
                 for (var i = slotTransform.childCount - 1; i >= 0; i--) GameManager.Despawn(slotTransform.GetChild(i).gameObject);
             }
 
             // Populate Active Slots
-            var activeModifiers = GameManager.ActiveModifiers.ToList();
-            for (int i = 0; i < activeModifiers.Count; i++)
+            var activeSpells = GameManager.Spells;
+            if (activeSpells == null) return;
+
+            for (int i = 0; i < activeSpells.Count; i++)
             {
-                var modifier = activeModifiers[i];
-                if (modifier != null && i < _modifierSlotContainer.childCount)
+                var spell = activeSpells[i];
+                if (spell != null && i < _spellSlotContainer.childCount)
                 {
-                    var slot = _modifierSlotContainer.GetChild(i);
-                    var ui = GameManager.SpawnModifierTileUI(GameManager.Data.ModifierTilePrefab);
+                    var slot = _spellSlotContainer.GetChild(i);
+                    var ui = GameManager.Spawn(GameManager.Data.SpellTilePrefab);
                     ui.transform.SetParent(slot);
                     ui.transform.localPosition = Vector3.zero;
-                    ui.Init(modifier, false, i);
+                    ui.Init(spell, false, i);
                 }
             }
         }

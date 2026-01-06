@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e5ab80e5c36c414aa0e304301dc404f, type: 3}
-  m_Name: Cannon
+  m_Name: Fireball
   m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.ProjectileWeaponData
-  _weaponName: Cannon
+  _weaponName: Fireball
   _icon: {fileID: 0}
   _fireRate: 2
   _projectilePrefab: {fileID: 8491378065012396037, guid: 0ac105268fcd8d548aa6cf0f11ccd45b, type: 3}
