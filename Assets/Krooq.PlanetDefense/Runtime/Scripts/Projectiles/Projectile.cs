@@ -8,9 +8,15 @@ namespace Krooq.PlanetDefense
 {
     public class Projectile : MonoBehaviour
     {
+        private const string Explosive = "Explosive";
+
         [Header("State")]
         [SerializeField, ReadOnly] private Vector3 _direction;
         [SerializeField, ReadOnly] private float _timer;
+        [SerializeField, ReadOnly] private Vector3? _target;
+        [SerializeField, ReadOnly] private HashSet<string> _tags = new();
+        [SerializeField, ReadOnly] private List<Modifier> _modifiers = new();
+
 
         [Header("Stats")]
         [SerializeField, ReadOnly] private Stat _damage;
@@ -23,8 +29,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private Stat _splitCount;
         [SerializeField, ReadOnly] private Stat _fireRate;
 
-        private HashSet<string> _tags = new();
-        private List<Modifier> _modifiers = new();
+
 
         protected GameManager GameManager => this.GetSingleton<GameManager>();
         protected MultiGameObjectPool Pool => this.GetSingleton<MultiGameObjectPool>();
@@ -37,11 +42,18 @@ namespace Krooq.PlanetDefense
         public float Lifetime => _lifetime.Value;
         public float FireRate => _fireRate.Value;
 
-        public void Init(Vector3 direction, ProjectileWeaponData weaponData, IEnumerable<Modifier> modifiers)
+        public void Init(Vector3 direction, ProjectileWeaponData weaponData, IEnumerable<Modifier> modifiers, PlayerTargetingReticle targetingReticle = null)
         {
             _direction = direction;
             _tags.Clear();
             _modifiers = new List<Modifier>(modifiers);
+            _target = null;
+
+            if (targetingReticle != null && targetingReticle.IsGroundTarget)
+            {
+                var dist = Vector3.Distance(transform.position, targetingReticle.TargetPosition);
+                _target = transform.position + (direction.normalized * dist);
+            }
 
             // Initialize Stats
             _damage = new Stat().WithBaseValue(weaponData.BaseDamage);
@@ -107,8 +119,21 @@ namespace Krooq.PlanetDefense
 
         protected void FixedUpdate()
         {
-            var moveDist = Speed * Time.fixedDeltaTime;
-            Rigidbody2D.MovePosition(Rigidbody2D.position + (Vector2)(_direction * moveDist));
+            var moveStep = (Vector2)(_direction * (Speed * Time.fixedDeltaTime));
+
+            if (_target.HasValue)
+            {
+                var distSq = ((Vector2)_target.Value - Rigidbody2D.position).sqrMagnitude;
+                if (distSq <= moveStep.sqrMagnitude)
+                {
+                    foreach (var mod in _modifiers) mod.Process(this, ModifierTrigger.OnHit);
+                    if (HasTag(Explosive)) Explode();
+                    GameManager.Despawn(gameObject);
+                    return;
+                }
+            }
+
+            Rigidbody2D.MovePosition(Rigidbody2D.position + moveStep);
 
             _timer -= Time.fixedDeltaTime;
             if (_timer <= 0)
@@ -128,7 +153,7 @@ namespace Krooq.PlanetDefense
             {
                 threat.TakeDamage(Damage);
 
-                if (HasTag("Explosive"))
+                if (HasTag(Explosive))
                 {
                     Explode();
                 }
@@ -147,7 +172,7 @@ namespace Krooq.PlanetDefense
             }
             else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                if (HasTag("Explosive"))
+                if (HasTag(Explosive))
                 {
                     Explode();
                 }

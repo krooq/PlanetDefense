@@ -1,0 +1,79 @@
+using UnityEngine;
+using Sirenix.OdinInspector;
+
+namespace Krooq.PlanetDefense
+{
+    public enum ThreatMovementType
+    {
+        Ground,
+        Air,
+        Constant
+    }
+
+    public class ThreatMovement : IThreatMovement
+    {
+        [SerializeField] private ThreatMovementType _type;
+
+        public ThreatMovementType Type => _type;
+
+        public ThreatMovement(ThreatMovementType type)
+        {
+
+        }
+
+        public void Move(Threat threat)
+        {
+            if (threat.PlayerBase == null) return;
+
+            switch (_type)
+            {
+                case ThreatMovementType.Ground:
+                    MoveGround(threat);
+                    break;
+                case ThreatMovementType.Air:
+                    MoveAir(threat);
+                    break;
+                case ThreatMovementType.Constant:
+                    MoveConstant(threat);
+                    break;
+            }
+        }
+
+        private void MoveGround(Threat threat)
+        {
+            // Move horizontally towards the base
+            float directionX = Mathf.Sign(threat.PlayerBase.transform.position.x - threat.transform.position.x);
+
+            if (threat.Rigidbody2D.bodyType == RigidbodyType2D.Dynamic)
+            {
+                threat.Rigidbody2D.linearVelocity = new Vector2(directionX * threat.Speed, threat.Rigidbody2D.linearVelocity.y);
+            }
+            else
+            {
+                Vector2 nextPos = threat.Rigidbody2D.position + new Vector2(directionX * threat.Speed * Time.fixedDeltaTime, 0);
+                threat.Rigidbody2D.MovePosition(nextPos);
+            }
+        }
+
+        private void MoveAir(Threat threat)
+        {
+            // Move directly towards the base
+            Vector2 direction = (threat.PlayerBase.transform.position - threat.transform.position).normalized;
+            threat.Rigidbody2D.MovePosition(threat.Rigidbody2D.position + direction * threat.Speed * Time.fixedDeltaTime);
+
+            // Optional: Rotate to face direction
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            threat.Rigidbody2D.rotation = angle;
+        }
+
+        private void MoveConstant(Threat threat)
+        {
+            // Move directly towards the base
+            Vector2 direction = (threat.PlayerBase.transform.position - threat.transform.position).normalized;
+            threat.Rigidbody2D.MovePosition(threat.Rigidbody2D.position + direction * threat.Speed * Time.fixedDeltaTime);
+
+            // Tumble
+            threat.Rigidbody2D.rotation += threat.Speed * Time.fixedDeltaTime;
+        }
+    }
+}

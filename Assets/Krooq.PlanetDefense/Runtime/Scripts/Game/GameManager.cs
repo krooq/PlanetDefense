@@ -164,7 +164,7 @@ namespace Krooq.PlanetDefense
             return Pool.Get(_selectedWeapon.ProjectilePrefab);
         }
 
-        public Threat SpawnThreat() => Pool.Get(_gameData.ThreatPrefab);
+        public Threat SpawnThreat(Threat prefab) => Pool.Get(prefab);
 
         public ModifierTileUI SpawnModifierTileUI(ModifierTileUI prefab) => Pool.Get(prefab);
 

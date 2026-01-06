@@ -51,28 +51,38 @@ namespace Krooq.PlanetDefense
         {
             if (_cam == null) _cam = Camera.main;
 
+            var threats = GameManager.Data.Threats;
+            if (threats == null || threats.Count == 0) return;
+
+            var threatData = threats[Random.Range(0, threats.Count)];
+
             var height = 2f * _cam.orthographicSize;
             var width = height * _cam.aspect;
             var topEdge = _cam.transform.position.y + _cam.orthographicSize;
             var leftEdge = _cam.transform.position.x - width / 2f;
             var rightEdge = _cam.transform.position.x + width / 2f;
 
-            // Spawn slightly above the top edge
-            var spawnY = topEdge + 2f;
-            var spawnX = Random.Range(leftEdge, rightEdge);
-            var spawnPos = new Vector3(spawnX, spawnY, 0);
+            Vector3 spawnPos;
 
-            // Target somewhere on the ground (y=0) within the screen width
-            // Add some padding so they don't target the very edge
-            var padding = 1f;
-            var targetX = Random.Range(leftEdge + padding, rightEdge - padding);
-            var targetPos = new Vector3(targetX, 0, 0);
+            if (threatData.MovementType == ThreatMovementType.Ground)
+            {
+                // Spawn on left or right edge, within the configured Y range
+                var spawnY = Random.Range(GameManager.Data.GroundUnitSpawnHeightMin, GameManager.Data.GroundUnitSpawnHeightMax);
+                var leftSide = Random.value < 0.5f;
+                var spawnX = leftSide ? leftEdge - 2f : rightEdge + 2f;
+                spawnPos = new Vector3(spawnX, spawnY, 0);
+            }
+            else
+            {
+                // Air or Constant - Spawn above top edge
+                var spawnY = topEdge + 2f;
+                var spawnX = Random.Range(leftEdge, rightEdge);
+                spawnPos = new Vector3(spawnX, spawnY, 0);
+            }
 
-            var direction = (targetPos - spawnPos).normalized;
-
-            var m = GameManager.SpawnThreat();
-            m.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
-            m.Init(GameManager.Data.ThreatBaseSpeed, GameManager.Data.ThreatBaseHealth, GameManager.Data.ResourcesPerThreat, direction);
+            var threat = GameManager.SpawnThreat(GameManager.Data.ThreatPrefab);
+            threat.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+            threat.Init(threatData);
         }
     }
 }

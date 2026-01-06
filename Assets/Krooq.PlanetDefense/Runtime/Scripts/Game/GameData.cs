@@ -34,11 +34,18 @@ namespace Krooq.PlanetDefense
 
         [Header("Threats")]
         [SerializeField] private Threat _threatPrefab;
+        [SerializeField] private List<ThreatData> _threats;
         [SerializeField] private float _threatSpawnHeight = 10f;
         [SerializeField] private float _threatSpawnWidth = 16f;
-        [SerializeField] private float _threatBaseSpeed = 2f;
-        [SerializeField] private int _threatBaseHealth = 10;
-        [SerializeField] private int _resourcesPerThreat = 1;
+        [SerializeField] private float _groundUnitSpawnHeightMin = 3f;
+        [SerializeField] private float _groundUnitSpawnHeightMax = 7f;
+        [SerializeField] private float _groundLevelY = 2f;
+
+        public Threat ThreatPrefab => _threatPrefab;
+        public List<ThreatData> Threats => _threats;
+        public float GroundUnitSpawnHeightMin => _groundUnitSpawnHeightMin;
+        public float GroundUnitSpawnHeightMax => _groundUnitSpawnHeightMax;
+        public float GroundLevelY => _groundLevelY;
 
         [Header("Wave Configuration")]
         [SerializeField] private int _baseWaveSize = 5;
@@ -75,12 +82,8 @@ namespace Krooq.PlanetDefense
         public float MoveSpeed => _moveSpeed;
         public float RotationSpeed => _rotationSpeed;
 
-        public Threat ThreatPrefab => _threatPrefab;
         public float ThreatSpawnHeight => _threatSpawnHeight;
         public float ThreatSpawnWidth => _threatSpawnWidth;
-        public float ThreatBaseSpeed => _threatBaseSpeed;
-        public int ThreatBaseHealth => _threatBaseHealth;
-        public int ResourcesPerThreat => _resourcesPerThreat;
 
         public int BaseWaveSize => _baseWaveSize;
         public int ThreatsPerWave => _threatsPerWave;

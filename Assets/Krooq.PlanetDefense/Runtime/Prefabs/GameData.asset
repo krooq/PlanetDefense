@@ -31,11 +31,13 @@ MonoBehaviour:
   _moveSpeed: 5
   _rotationSpeed: 10
   _threatPrefab: {fileID: -3283402286077190664, guid: 52dd661294498034e83e684275db9a7e, type: 3}
+  _threats:
+  - {fileID: 11400000, guid: 782d0a51ebf816b49ab9ea3b2262e1c1, type: 2}
   _threatSpawnHeight: 10
   _threatSpawnWidth: 16
-  _threatBaseSpeed: 2
-  _threatBaseHealth: 10
-  _resourcesPerThreat: 1
+  _groundUnitSpawnHeightMin: 3
+  _groundUnitSpawnHeightMax: 7
+  _groundLevelY: 10
   _baseWaveSize: 5
   _threatsPerWave: 5
   _baseSpawnRate: 2

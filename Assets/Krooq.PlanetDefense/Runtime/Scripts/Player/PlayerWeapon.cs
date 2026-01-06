@@ -40,15 +40,15 @@ namespace Krooq.PlanetDefense
             _pivot.rotation = Quaternion.Lerp(_pivot.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * rotationSpeed);
         }
 
-        public void TryFire()
+        public void TryFire(PlayerTargetingReticle targetingReticle)
         {
             if (_fireTimer <= 0 && GameManager.SelectedWeapon != null)
             {
-                Fire();
+                Fire(targetingReticle);
             }
         }
 
-        private void Fire()
+        private void Fire(PlayerTargetingReticle targetingReticle)
         {
             var p = GameManager.SpawnProjectile();
             if (p == null) return;
@@ -59,7 +59,7 @@ namespace Krooq.PlanetDefense
             var modifiers = GameManager.ActiveModifiers;
 
             // Finalize
-            p.Init(_firePoint.up, GameManager.SelectedWeapon, modifiers);
+            p.Init(_firePoint.up, GameManager.SelectedWeapon, modifiers, targetingReticle);
 
             // Set Fire Timer based on projectile stat
             _fireTimer = 1f / p.FireRate;

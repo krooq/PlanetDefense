@@ -1,5 +1,4 @@
 using UnityEngine;
-using Krooq.Common;
 using Krooq.Core;
 using Sirenix.OdinInspector;
 
@@ -7,23 +6,36 @@ namespace Krooq.PlanetDefense
 {
     public class Threat : MonoBehaviour
     {
-        [SerializeField] private float _speed = 2f;
-        [SerializeField] private float _health = 10f;
-        [SerializeField] private int _resources = 10;
-        [SerializeField, ReadOnly] private Vector3 _direction = Vector3.down;
+        [SerializeField, ReadOnly] private float _speed = 2f;
+        [SerializeField, ReadOnly] private float _health = 10f;
+        [SerializeField, ReadOnly] private int _resources = 10;
+        [SerializeField, ReadOnly] private IThreatMovement _movement;
+        [SerializeField, ReadOnly] private ThreatData _data;
+        [SerializeField, ReadOnly] private ThreatModel _model;
+
         protected GameManager GameManager => this.GetSingleton<GameManager>();
-        protected Rigidbody2D Rigidbody2D => this.GetCachedComponent<Rigidbody2D>();
+        public PlayerBase PlayerBase => this.GetSingleton<PlayerBase>();
+        public Rigidbody2D Rigidbody2D => this.GetCachedComponent<Rigidbody2D>();
 
         public float Speed => _speed;
         public float Health => _health;
         public int Resources => _resources;
+        public ThreatData Data => _data;
 
-        public void Init(float speed, float health, int resources, Vector3 direction)
+        public void Init(ThreatData data)
         {
-            _speed = speed;
-            _health = health;
-            _resources = resources;
-            _direction = direction;
+            _data = data;
+            _speed = data.Speed;
+            _health = data.Health;
+            _resources = data.Resources;
+            _movement = new ThreatMovement(data.MovementType);
+
+            if (data.ModelPrefab != null)
+            {
+                _model = Instantiate(data.ModelPrefab, transform);
+                _model.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                _model.Init(this);
+            }
         }
 
         protected void OnEnable()
@@ -38,16 +50,13 @@ namespace Krooq.PlanetDefense
 
         protected void FixedUpdate()
         {
-            Rigidbody2D.MovePosition(Rigidbody2D.position + (Vector2)(_direction * Speed * Time.fixedDeltaTime));
+            _movement.Move(this);
         }
 
         public void TakeDamage(float amount)
         {
             _health -= amount;
-            if (_health <= 0)
-            {
-                Die();
-            }
+            if (_health <= 0) Die();
         }
 
         protected void Die(bool giveResources = true)
@@ -58,14 +67,23 @@ namespace Krooq.PlanetDefense
 
         protected void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.TryGetComponent<Building>(out var building))
+            var go = other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
+            if (go.TryGetComponent<Building>(out var building))
             {
                 building.TakeDamage(1);
                 Die(false);
             }
-            else if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            else if (go.TryGetComponent<PlayerBase>(out var playerBase))
             {
+                playerBase.TakeDamage(1);
                 Die(false);
+            }
+            else if (go.layer == LayerMask.NameToLayer("Ground"))
+            {
+                if (_data.MovementType == ThreatMovementType.Constant)
+                {
+                    Die(false);
+                }
             }
         }
     }

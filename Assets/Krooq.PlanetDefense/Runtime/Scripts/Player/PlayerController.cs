@@ -9,6 +9,7 @@ namespace Krooq.PlanetDefense
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private PlayerWeapon _weapon;
+        [SerializeField] private PlayerTargetingReticle _targetingReticle;
 
         private Camera _cam;
         protected GameManager GameManager => this.GetSingleton<GameManager>();
@@ -37,17 +38,18 @@ namespace Krooq.PlanetDefense
 
         protected void HandleAiming()
         {
-            var mousePos = _cam.ScreenToWorldPoint(InputManager.PointAction.ReadValue<Vector2>());
-            mousePos.z = 0f;
-
-            _weapon.Aim(mousePos, GameManager.Data.RotationSpeed);
+            if (_targetingReticle == null) return;
+            _weapon.Aim(_targetingReticle.TargetPosition, GameManager.Data.RotationSpeed);
         }
 
         protected void HandleFiring()
         {
             if (InputManager.ClickAction.IsPressed())
             {
-                _weapon.TryFire();
+                if (_targetingReticle != null)
+                {
+                    _weapon.TryFire(_targetingReticle);
+                }
             }
         }
     }
