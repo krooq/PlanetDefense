@@ -17,7 +17,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private Vector3? _target;
         [SerializeField, ReadOnly] private HashSet<string> _tags = new();
         [SerializeField, ReadOnly] private ProjectileModel _model;
-        [SerializeField, ReadOnly] private ProjectileWeaponData _weaponData;
+        [SerializeField, ReadOnly] private ProjectileData _data;
 
         [Header("Stats")]
         [SerializeField, ReadOnly] private Stat _damage;
@@ -42,25 +42,30 @@ namespace Krooq.PlanetDefense
         public float Lifetime => _lifetime.Value;
         public float FireRate => _fireRate.Value;
 
-        public void Init(Vector3 direction, ProjectileWeaponData weaponData, Spell sourceSpell, Player sourcePlayer, PlayerTargetingReticle targetingReticle = null)
+        public void Init(Vector3 direction, ProjectileData data, Spell sourceSpell, Player sourcePlayer, PlayerTargetingReticle targetingReticle = null)
         {
-            _weaponData = weaponData;
+            _data = data;
             _direction = direction;
             _tags.Clear();
             _target = null;
             GameManager.Despawn(_model);
 
-            if (_weaponData.ProjectileModelPrefab != null)
+            if (_data.FireEffectPrefab != null)
             {
-                _model = GameManager.Spawn(_weaponData.ProjectileModelPrefab);
+                SpawnEffect(_data.FireEffectPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (_data.FireSound != null)
+            {
+                AudioManager.PlaySound(_data.FireSound);
+            }
+
+            if (_data.ProjectileModelPrefab != null)
+            {
+                _model = GameManager.Spawn(_data.ProjectileModelPrefab);
                 _model.transform.SetParent(transform);
                 _model.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 _model.Init(this);
-            }
-
-            if (_weaponData.FireEffectPrefab != null)
-            {
-                SpawnEffect(_weaponData.FireEffectPrefab, transform.position, Quaternion.identity);
             }
 
             if (targetingReticle != null && targetingReticle.IsGroundTarget)
@@ -70,12 +75,12 @@ namespace Krooq.PlanetDefense
             }
 
             // Initialize Stats
-            _damage = new Stat().WithBaseValue(weaponData.BaseDamage);
-            _speed = new Stat().WithBaseValue(weaponData.BaseSpeed);
-            _size = new Stat().WithBaseValue(weaponData.BaseSize);
-            _pierce = new Stat().WithBaseValue(weaponData.BasePierce);
-            _lifetime = new Stat().WithBaseValue(weaponData.BaseLifetime);
-            _fireRate = new Stat().WithBaseValue(weaponData.BaseFireRate);
+            _damage = new Stat().WithBaseValue(data.BaseDamage);
+            _speed = new Stat().WithBaseValue(data.BaseSpeed);
+            _size = new Stat().WithBaseValue(data.BaseSize);
+            _pierce = new Stat().WithBaseValue(data.BasePierce);
+            _lifetime = new Stat().WithBaseValue(data.BaseLifetime);
+            _fireRate = new Stat().WithBaseValue(data.BaseFireRate);
 
             // Initialize Optional Stats (default to 0 or 1 as appropriate)
             _explosionRadius = new Stat().WithBaseValue(0f);
@@ -86,7 +91,7 @@ namespace Krooq.PlanetDefense
             transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
 
             // Fire Event
-            GameEventManager?.FireEvent(this, new ProjectileLaunchedEvent(this, sourceSpell, sourcePlayer));
+            GameEventManager.FireEvent(this, new ProjectileLaunchedEvent(this, sourceSpell, sourcePlayer));
 
             // Update Scale
             transform.localScale = Vector3.one * Size;
@@ -142,7 +147,7 @@ namespace Krooq.PlanetDefense
                 var distSq = ((Vector2)_target.Value - Rigidbody2D.position).sqrMagnitude;
                 if (distSq <= moveStep.sqrMagnitude)
                 {
-                    GameEventManager?.FireEvent(this, new ProjectileHitEvent(this, null));
+                    GameEventManager.FireEvent(this, new ProjectileHitEvent(this, null));
                     if (HasTag(Explosive)) Explode();
                     HandleImpact(true, Quaternion.LookRotation(Vector3.forward, Vector3.up));
                     return;
@@ -154,7 +159,7 @@ namespace Krooq.PlanetDefense
             _timer -= Time.fixedDeltaTime;
             if (_timer <= 0)
             {
-                GameEventManager?.FireEvent(this, new ProjectileDespawnEvent(this));
+                GameEventManager.FireEvent(this, new ProjectileDespawnEvent(this));
                 HandleImpact(false);
             }
         }
@@ -165,7 +170,7 @@ namespace Krooq.PlanetDefense
 
             var rb = other.attachedRigidbody;
             var go = rb != null ? rb.gameObject : other.gameObject;
-            GameEventManager?.FireEvent(this, new ProjectileHitEvent(this, go));
+            GameEventManager.FireEvent(this, new ProjectileHitEvent(this, go));
 
             var threat = go.GetCachedComponent<Threat>();
             if (threat != null)
@@ -201,16 +206,16 @@ namespace Krooq.PlanetDefense
 
         private async void HandleImpact(bool spawnEffects = true, Quaternion? impactRotation = null)
         {
-            if (spawnEffects && _weaponData != null)
+            if (spawnEffects && _data != null)
             {
-                if (_weaponData.ImpactSound != null && AudioManager != null)
+                if (_data.ImpactSound != null && AudioManager != null)
                 {
-                    AudioManager.PlaySound(_weaponData.ImpactSound);
+                    AudioManager.PlaySound(_data.ImpactSound);
                 }
 
-                if (_weaponData.ImpactEffectPrefab != null)
+                if (_data.ImpactEffectPrefab != null)
                 {
-                    SpawnEffect(_weaponData.ImpactEffectPrefab, transform.position, impactRotation ?? Quaternion.identity);
+                    SpawnEffect(_data.ImpactEffectPrefab, transform.position, impactRotation ?? Quaternion.identity);
                 }
             }
 

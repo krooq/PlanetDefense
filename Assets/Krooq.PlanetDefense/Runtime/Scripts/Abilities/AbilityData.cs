@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Krooq.PlanetDefense
 {
-    public abstract class AbilityDefinition : ScriptableObject
+    public abstract class AbilityData : ScriptableObject
     {
         [SerializeField, TextArea] private string _description;
         public string Description => _description;

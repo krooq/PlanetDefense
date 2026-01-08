@@ -4,8 +4,8 @@ using Krooq.Common;
 
 namespace Krooq.PlanetDefense
 {
-    [CreateAssetMenu(fileName = "ProjectileWeaponData", menuName = "PlanetDefense/ProjectileWeaponData")]
-    public class ProjectileWeaponData : ScriptableObject
+    [CreateAssetMenu(fileName = "ProjectileData", menuName = "PlanetDefense/ProjectileData")]
+    public class ProjectileData : ScriptableObject
     {
         [Header("Visuals & Effects")]
         [SerializeField] private Sprite _icon;

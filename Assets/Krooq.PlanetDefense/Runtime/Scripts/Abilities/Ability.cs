@@ -5,12 +5,12 @@ namespace Krooq.PlanetDefense
 {
     public abstract class Ability : IAbility
     {
-        protected Player Owner;
-        protected object Source;
+        protected Player Player;
+        protected IAbilitySource Source;
 
-        public virtual void Init(Player owner, object source)
+        public virtual void Init(Player player, IAbilitySource source)
         {
-            Owner = owner;
+            Player = player;
             Source = source;
         }
 

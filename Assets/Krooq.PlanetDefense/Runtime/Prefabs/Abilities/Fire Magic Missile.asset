@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50f7aaa50c56fcf429f3fb4106377e11, type: 3}
-  m_Name: Many Missiles
-  m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.Relic
-  _relicName: Many Missiles
+  m_Script: {fileID: 0}
+  m_Name: Fire Magic Missile
+  m_EditorClassIdentifier: Krooq.PlanetDefense:Krooq.PlanetDefense:FireProjectileAbilityData
   _description: 
-  _icon: {fileID: 0}
-  _shopCost: 2
-  _tags: []
-  _abilities: []
+  _projectileData: {fileID: 11400000, guid: 152ec756cab19dd45a401811238038c4, type: 2}

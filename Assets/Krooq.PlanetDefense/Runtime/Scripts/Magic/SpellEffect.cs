@@ -23,7 +23,7 @@ namespace Krooq.PlanetDefense
 
         // Fire Projectile
         [SerializeField, ShowIf("_type", EffectType.FireProjectile)]
-        private ProjectileWeaponData _projectileData;
+        private ProjectileData _projectileData;
 
         [SerializeField, ShowIf("_type", EffectType.FireProjectile)]
         private List<Modifier> _projectileModifiers = new();
@@ -43,7 +43,7 @@ namespace Krooq.PlanetDefense
         public bool HasCondition => _hasCondition;
         public Condition Condition => _condition;
 
-        public ProjectileWeaponData ProjectileData => _projectileData;
+        public ProjectileData ProjectileData => _projectileData;
         public IReadOnlyList<Modifier> ProjectileModifiers => _projectileModifiers;
 
         public int SlotOffset => _slotOffset;

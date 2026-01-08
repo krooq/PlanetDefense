@@ -16,8 +16,8 @@ namespace Krooq.PlanetDefense
         [SerializeField] private List<Spell> _startingSpells;
 
         [Header("Weapons")]
-        [SerializeField] private List<ProjectileWeaponData> _availableWeapons;
-        [SerializeField] private ProjectileWeaponData _defaultWeapon;
+        [SerializeField] private List<ProjectileData> _availableWeapons;
+        [SerializeField] private ProjectileData _defaultWeapon;
 
         [Header("Projectile Stats")]
         [SerializeField] private Projectile _projectilePrefab;
@@ -72,8 +72,8 @@ namespace Krooq.PlanetDefense
         public int BaseMana => _baseMana;
         public int BaseManaRegen => _baseManaRegen;
         public IReadOnlyList<Spell> StartingSpells => _startingSpells;
-        public IReadOnlyList<ProjectileWeaponData> AvailableWeapons => _availableWeapons;
-        public ProjectileWeaponData DefaultWeapon => _defaultWeapon;
+        public IReadOnlyList<ProjectileData> AvailableWeapons => _availableWeapons;
+        public ProjectileData DefaultWeapon => _defaultWeapon;
 
         public Projectile ProjectilePrefab => _projectilePrefab;
 

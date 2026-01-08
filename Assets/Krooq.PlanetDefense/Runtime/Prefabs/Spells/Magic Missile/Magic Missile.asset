@@ -19,16 +19,5 @@ MonoBehaviour:
   _manaCost: 1
   _cooldown: 1
   _tags: []
-  _effects:
-  - _type: 0
-    _hasCondition: 0
-    _condition:
-      Type: 0
-      Tag: 
-      MinManaPercent: 0
-      Chance: 0
-    _projectileData: {fileID: 11400000, guid: 152ec756cab19dd45a401811238038c4, type: 2}
-    _projectileModifiers: []
-    _slotOffset: 0
-    _manaCostMultiplier: 0.5
-    _damageMultiplier: 2
+  _abilities:
+  - {fileID: 11400000, guid: b2265e33ec8dd874583b974f187d2028, type: 2}

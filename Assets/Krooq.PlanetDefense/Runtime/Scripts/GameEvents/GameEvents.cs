@@ -6,12 +6,12 @@ namespace Krooq.PlanetDefense
     public struct SpellCastEvent : IGameEvent
     {
         public Spell Spell;
-        public Player Source;
+        public Player Player;
 
-        public SpellCastEvent(Spell spell, Player source)
+        public SpellCastEvent(Spell spell, Player player)
         {
             Spell = spell;
-            Source = source;
+            Player = player;
         }
     }
 

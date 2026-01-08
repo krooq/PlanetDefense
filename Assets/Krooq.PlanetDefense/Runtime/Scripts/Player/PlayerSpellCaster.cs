@@ -105,7 +105,7 @@ namespace Krooq.PlanetDefense
             // Set Cooldown
             _spellCooldowns[slotIndex] = spell.Cooldown;
 
-            GameEventManager?.FireEvent(this, new SpellCastEvent(spell, Player));
+            GameEventManager.FireEvent(this, new SpellCastEvent(spell, Player));
 
             _lastCastSpell = spell;
         }

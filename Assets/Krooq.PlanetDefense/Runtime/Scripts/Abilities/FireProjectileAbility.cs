@@ -7,10 +7,10 @@ using Cysharp.Threading.Tasks;
 namespace Krooq.PlanetDefense
 {
     [CreateAssetMenu(fileName = "FireProjectileAbility", menuName = "PlanetDefense/Abilities/FireProjectile")]
-    public class FireProjectileAbilityDefinition : AbilityDefinition
+    public class FireProjectileAbilityData : AbilityData
     {
-        [SerializeField] private ProjectileWeaponData _projectileData;
-        public ProjectileWeaponData ProjectileData => _projectileData;
+        [SerializeField] private ProjectileData _projectileData;
+        public ProjectileData ProjectileData => _projectileData;
 
         public override IAbility Create()
         {
@@ -20,28 +20,25 @@ namespace Krooq.PlanetDefense
 
     public class FireProjectileAbility : Ability
     {
-        private FireProjectileAbilityDefinition _def;
+        private FireProjectileAbilityData _data;
 
-        public FireProjectileAbility(FireProjectileAbilityDefinition def)
+        public FireProjectileAbility(FireProjectileAbilityData data)
         {
-            _def = def;
+            _data = data;
         }
 
         public override async UniTask OnGameEvent(IGameEvent gameEvent)
         {
-            if (gameEvent is SpellCastEvent spellCast)
-            {
-                if (Source is Spell sourceSpell && sourceSpell == spellCast.Spell)
-                {
-                    Fire(spellCast);
-                }
-            }
+            if (gameEvent is not SpellCastEvent spellCast) return;
+            if (Source is not Spell sourceSpell) return;
+            if (sourceSpell != spellCast.Spell) return;
+            FireProjectile(spellCast);
         }
 
-        private void Fire(SpellCastEvent e)
+        private void FireProjectile(SpellCastEvent e)
         {
-            var gm = Owner.GetSingleton<GameManager>();
-            var data = _def.ProjectileData;
+            var gm = Player.GetSingleton<GameManager>();
+            var data = _data.ProjectileData;
             if (data == null) return;
 
             var prefab = gm.Data.ProjectilePrefab;
@@ -49,10 +46,10 @@ namespace Krooq.PlanetDefense
             var p = gm.Spawn(prefab);
             if (p == null) return;
 
-            var caster = Owner.GetCachedComponent<PlayerSpellCaster>();
+            var caster = Player.GetCachedComponent<PlayerSpellCaster>();
             p.transform.SetPositionAndRotation(caster.FirePoint.position, caster.FirePoint.rotation);
 
-            p.Init(caster.FirePoint.up, data, e.Spell, Owner, caster.TargetingReticle);
+            p.Init(caster.FirePoint.up, data, e.Spell, Player, caster.TargetingReticle);
         }
     }
 }

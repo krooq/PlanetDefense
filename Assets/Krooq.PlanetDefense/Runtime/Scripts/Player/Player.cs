@@ -15,7 +15,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private int _resources;
         [SerializeField, ReadOnly] private Spell[] _spells = new Spell[4];
         [SerializeField, ReadOnly] private Relic[] _relics;
-        [SerializeField, ReadOnly] private ProjectileWeaponData _selectedWeapon;
+        [SerializeField, ReadOnly] private ProjectileData _selectedWeapon;
 
         private AbilityController _abilityController;
         private float _manaRegenAccumulator;
@@ -30,7 +30,7 @@ namespace Krooq.PlanetDefense
         public int Resources => _resources;
         public IReadOnlyList<Spell> Spells => _spells;
         public IReadOnlyList<Relic> Relics => _relics;
-        public ProjectileWeaponData SelectedWeapon => _selectedWeapon;
+        public ProjectileData SelectedWeapon => _selectedWeapon;
         public AbilityController AbilityController => _abilityController;
 
         private void Start()
@@ -150,6 +150,6 @@ namespace Krooq.PlanetDefense
             }
         }
 
-        public void SelectWeapon(ProjectileWeaponData weapon) => _selectedWeapon = weapon;
+        public void SelectWeapon(ProjectileData weapon) => _selectedWeapon = weapon;
     }
 }

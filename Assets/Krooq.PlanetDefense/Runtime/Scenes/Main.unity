@@ -881,73 +881,6 @@ MonoBehaviour:
     radialOrigin: {x: 0, y: 0, z: 0}
     radialRadius: 1
   useFill: 0
---- !u!1 &262515257
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 262515258}
-  - component: {fileID: 262515259}
-  - component: {fileID: 262515260}
-  m_Layer: 0
-  m_Name: Player Controller
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &262515258
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262515257}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 905639730}
-  - {fileID: 1780884373}
-  m_Father: {fileID: 479340703}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &262515259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262515257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01bfb78939f5b4c47a09e2523e450b47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.PlayerController
-  _spellCaster: {fileID: 262515260}
-  _targetingReticle: {fileID: 905639731}
---- !u!114 &262515260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262515257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c1ac8d1237316246bb29de53ff0f84a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.PlayerSpellCaster
-  _pivot: {fileID: 1609449727}
-  _firePoint: {fileID: 785725970}
-  _targetingReticle: {fileID: 905639731}
-  _selectedSlotIndex: 0
-  _lastCastSpell: {fileID: 0}
-  _nextSpellDamageMultiplier: 1
 --- !u!1 &408978902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +1550,7 @@ Transform:
   m_Children:
   - {fileID: 180447124}
   - {fileID: 1776426767}
-  - {fileID: 262515258}
+  - {fileID: 1447995062}
   m_Father: {fileID: 625891846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
@@ -2425,7 +2358,6 @@ Transform:
   - {fileID: 471246412}
   - {fileID: 1565090707}
   - {fileID: 1904232934}
-  - {fileID: 1447995062}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &876480249
@@ -2596,14 +2528,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905639729}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2023477079}
   - {fileID: 876480250}
-  m_Father: {fileID: 262515258}
+  m_Father: {fileID: 1447995062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &905639731
 MonoBehaviour:
@@ -3796,6 +3728,8 @@ GameObject:
   - component: {fileID: 1447995066}
   - component: {fileID: 1447995065}
   - component: {fileID: 1447995064}
+  - component: {fileID: 1447995068}
+  - component: {fileID: 1447995067}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3811,12 +3745,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1447995061}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 811296318}
+  m_Children:
+  - {fileID: 905639730}
+  - {fileID: 1780884373}
+  m_Father: {fileID: 479340703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1447995064
 MonoBehaviour:
@@ -3884,6 +3820,38 @@ MonoBehaviour:
   - {fileID: 0}
   _relics: []
   _selectedWeapon: {fileID: 0}
+--- !u!114 &1447995067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447995061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1ac8d1237316246bb29de53ff0f84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.PlayerSpellCaster
+  _pivot: {fileID: 1609449727}
+  _firePoint: {fileID: 785725970}
+  _targetingReticle: {fileID: 905639731}
+  _selectedSlotIndex: 0
+  _lastCastSpell: {fileID: 0}
+  _nextSpellDamageMultiplier: 1
+--- !u!114 &1447995068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447995061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfb78939f5b4c47a09e2523e450b47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.PlayerController
+  _spellCaster: {fileID: 1447995067}
+  _targetingReticle: {fileID: 905639731}
 --- !u!1 &1510782250
 GameObject:
   m_ObjectHideFlags: 0
@@ -4685,7 +4653,7 @@ Transform:
   m_Children:
   - {fileID: 1575874264}
   - {fileID: 1609449727}
-  m_Father: {fileID: 262515258}
+  m_Father: {fileID: 1447995062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1780884374
 MonoBehaviour:
