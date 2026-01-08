@@ -104,5 +104,18 @@ namespace Krooq.PlanetDefense
         public SpellTileUI SpellTilePrefab => _spellTilePrefab;
         public SpellSlotUI SpellSlotPrefab => _spellSlotPrefab;
         public AudioSource AudioSourcePrefab => _audioSourcePrefab;
+
+        [Header("Relics")]
+        [SerializeField] private List<Relic> _availableRelics;
+        [SerializeField] private int _maxRelicSlots = 3;
+        [SerializeField] private RelicTileUI _relicTilePrefab;
+        [SerializeField] private RelicSlotUI _relicSlotPrefab;
+        [SerializeField] private List<Relic> _startingRelics;
+
+        public List<Relic> AvailableRelics => _availableRelics;
+        public int MaxRelicSlots => _maxRelicSlots;
+        public RelicTileUI RelicTilePrefab => _relicTilePrefab;
+        public RelicSlotUI RelicSlotPrefab => _relicSlotPrefab;
+        public List<Relic> StartingRelics => _startingRelics;
     }
 }

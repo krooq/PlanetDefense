@@ -52,3 +52,8 @@ MonoBehaviour:
   _spellTilePrefab: {fileID: 3834534628122088379, guid: fa161c7ab58755646bfa73ebbba2fe04, type: 3}
   _spellSlotPrefab: {fileID: 1065834685477414293, guid: f2b82f5477973cd4d84159641376818d, type: 3}
   _audioSourcePrefab: {fileID: 6661895296412262151, guid: 60f5935b6112d794bbd5632723a85de9, type: 3}
+  _availableRelics: []
+  _maxRelicSlots: 3
+  _relicTilePrefab: {fileID: -6979386731094417715, guid: 5ed81e4192917d54fa4ba3eef29ccd13, type: 3}
+  _relicSlotPrefab: {fileID: -8281811172535944241, guid: 83050a82f24310f4ab70e01aa42e44ac, type: 3}
+  _startingRelics: []

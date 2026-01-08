@@ -14,6 +14,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private int _maxMana;
         [SerializeField, ReadOnly] private int _resources;
         [SerializeField, ReadOnly] private Spell[] _spells = new Spell[4];
+        [SerializeField, ReadOnly] private Relic[] _relics;
         [SerializeField, ReadOnly] private ProjectileWeaponData _selectedWeapon;
 
         private float _manaRegenAccumulator;
@@ -27,6 +28,7 @@ namespace Krooq.PlanetDefense
         public int MaxMana => _maxMana;
         public int Resources => _resources;
         public IReadOnlyList<Spell> Spells => _spells;
+        public IReadOnlyList<Relic> Relics => _relics;
         public ProjectileWeaponData SelectedWeapon => _selectedWeapon;
 
         private void Start()
@@ -34,6 +36,22 @@ namespace Krooq.PlanetDefense
             if (GameManager != null && GameManager.Data != null)
             {
                 ResetPlayer();
+            }
+        }
+
+        public void SetSpell(int index, Spell spell)
+        {
+            if (index >= 0 && index < _spells.Length)
+            {
+                _spells[index] = spell;
+            }
+        }
+
+        public void SetRelic(int index, Relic relic)
+        {
+            if (index >= 0 && index < _relics.Length)
+            {
+                _relics[index] = relic;
             }
         }
 
@@ -51,10 +69,22 @@ namespace Krooq.PlanetDefense
             {
                 _spells[i] = startingSpells[i];
             }
+
+            _relics = new Relic[GameManager.Data.MaxRelicSlots];
+            var startingRelics = GameManager.Data.StartingRelics;
+            if (startingRelics != null)
+            {
+                for (int i = 0; i < startingRelics.Count && i < _relics.Length; i++)
+                {
+                    _relics[i] = startingRelics[i];
+                }
+            }
+
             _currentMana = _maxMana;
             _manaRegenAccumulator = 0f;
 
             this.GetSingleton<SpellBarUI>()?.Refresh();
+            this.GetSingleton<RelicBarUI>()?.Refresh();
         }
 
         private void Update()
@@ -104,13 +134,5 @@ namespace Krooq.PlanetDefense
         }
 
         public void SelectWeapon(ProjectileWeaponData weapon) => _selectedWeapon = weapon;
-
-        public void SetSpell(int index, Spell spell)
-        {
-            if (index >= 0 && index < _spells.Length)
-            {
-                _spells[index] = spell;
-            }
-        }
     }
 }

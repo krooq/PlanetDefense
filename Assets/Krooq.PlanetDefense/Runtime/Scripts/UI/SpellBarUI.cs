@@ -6,41 +6,26 @@ using System.Linq;
 
 namespace Krooq.PlanetDefense
 {
-    public class SpellBarUI : MonoBehaviour
+    public class SpellBarUI : BaseBarUI
     {
-        [SerializeField] private Transform _spellSlotContainer;
+        protected override int MaxSlots => GameManager.Data.MaxSlots;
 
-        protected GameManager GameManager => this.GetSingleton<GameManager>();
-
-        protected void OnEnable()
+        protected override BaseSlotUI SpawnSlot()
         {
-            for (int i = 0; i < GameManager.Data.MaxSlots; i++)
-            {
-                var slot = GameManager.Spawn(GameManager.Data.SpellSlotPrefab);
-                slot.transform.SetParent(_spellSlotContainer, false);
-                slot.Init(i);
-            }
-            Refresh();
+            return GameManager.Spawn(GameManager.Data.SpellSlotPrefab);
         }
 
-        public void Refresh()
+        protected override void OnRefreshTiles()
         {
-            // Clear Active Slots (remove children of slots)
-            foreach (Transform slotTransform in _spellSlotContainer)
-            {
-                for (var i = slotTransform.childCount - 1; i >= 0; i--) GameManager.Despawn(slotTransform.GetChild(i).gameObject);
-            }
-
-            // Populate Active Slots
             var activeSpells = GameManager.Spells;
             if (activeSpells == null) return;
 
             for (int i = 0; i < activeSpells.Count; i++)
             {
                 var spell = activeSpells[i];
-                if (spell != null && i < _spellSlotContainer.childCount)
+                if (spell != null && i < _slotContainer.childCount)
                 {
-                    var slot = _spellSlotContainer.GetChild(i);
+                    var slot = _slotContainer.GetChild(i);
                     var ui = GameManager.Spawn(GameManager.Data.SpellTilePrefab);
                     ui.transform.SetParent(slot);
                     ui.transform.localPosition = Vector3.zero;

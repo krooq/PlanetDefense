@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 
 namespace Krooq.PlanetDefense
 {
-    public enum SpellEffectType
+    public enum EffectType
     {
         FireProjectile,
         CastSlot,
@@ -14,34 +14,34 @@ namespace Krooq.PlanetDefense
     }
 
     [System.Serializable]
-    public class SpellEffect
+    public class Effect
     {
-        [SerializeField] private SpellEffectType _type;
+        [SerializeField] private EffectType _type;
 
         [SerializeField] private bool _hasCondition;
-        [SerializeField, ShowIf("_hasCondition")] private SpellCondition _condition;
+        [SerializeField, ShowIf("_hasCondition")] private Condition _condition;
 
         // Fire Projectile
-        [SerializeField, ShowIf("_type", SpellEffectType.FireProjectile)]
+        [SerializeField, ShowIf("_type", EffectType.FireProjectile)]
         private ProjectileWeaponData _projectileData;
 
-        [SerializeField, ShowIf("_type", SpellEffectType.FireProjectile)]
+        [SerializeField, ShowIf("_type", EffectType.FireProjectile)]
         private List<Modifier> _projectileModifiers = new();
 
         // Cast Slot
-        [SerializeField, ShowIf("_type", SpellEffectType.CastSlot)]
+        [SerializeField, ShowIf("_type", EffectType.CastSlot)]
         private int _slotOffset; // e.g. 1 for right, -1 for left
 
-        [SerializeField, ShowIf("_type", SpellEffectType.CastSlot)]
+        [SerializeField, ShowIf("_type", EffectType.CastSlot)]
         private float _manaCostMultiplier = 0.5f;
 
         // Modify Next Spell
-        [SerializeField, ShowIf("_type", SpellEffectType.ModifyNextSpell)]
+        [SerializeField, ShowIf("_type", EffectType.ModifyNextSpell)]
         private float _damageMultiplier = 2f;
 
-        public SpellEffectType Type => _type;
+        public EffectType Type => _type;
         public bool HasCondition => _hasCondition;
-        public SpellCondition Condition => _condition;
+        public Condition Condition => _condition;
 
         public ProjectileWeaponData ProjectileData => _projectileData;
         public IReadOnlyList<Modifier> ProjectileModifiers => _projectileModifiers;
@@ -53,7 +53,7 @@ namespace Krooq.PlanetDefense
     }
 
     [System.Serializable]
-    public class SpellCondition
+    public class Condition
     {
         public enum ConditionType
         {

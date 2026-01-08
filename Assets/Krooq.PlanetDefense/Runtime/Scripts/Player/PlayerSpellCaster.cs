@@ -43,7 +43,8 @@ namespace Krooq.PlanetDefense
         {
             var dir = (targetPosition - _pivot.position).normalized;
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f; // Assuming sprite points up
-            _pivot.rotation = Quaternion.Lerp(_pivot.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * rotationSpeed);
+            var t = 1f; // Don't think we need to make this take any time. //Time.deltaTime * rotationSpeed;
+            _pivot.rotation = Quaternion.Lerp(_pivot.rotation, Quaternion.Euler(0, 0, angle), t);
         }
 
         private void HandleInput()
@@ -111,33 +112,33 @@ namespace Krooq.PlanetDefense
             _lastCastSpell = spell;
         }
 
-        private bool CheckCondition(SpellEffect effect, Spell lastSpell)
+        private bool CheckCondition(Effect effect, Spell lastSpell)
         {
             if (!effect.HasCondition) return true;
             var condition = effect.Condition;
 
             switch (condition.Type)
             {
-                case SpellCondition.ConditionType.PreviousSpellTag:
+                case Condition.ConditionType.PreviousSpellTag:
                     if (lastSpell == null) return false;
                     foreach (var tag in lastSpell.Tags) if (tag == condition.Tag) return true;
                     return false;
-                case SpellCondition.ConditionType.ManaPercentageAbove:
+                case Condition.ConditionType.ManaPercentageAbove:
                     if (GameManager.Data.BaseMana <= 0) return false;
                     return (GameManager.CurrentMana / GameManager.Data.BaseMana) >= condition.MinManaPercent;
-                case SpellCondition.ConditionType.Chance:
+                case Condition.ConditionType.Chance:
                     return Random.value <= condition.Chance;
             }
             return true;
         }
 
-        private void ApplyEffect(SpellEffect effect, Spell sourceSpell, int sourceSlotIndex, float damageMult)
+        private void ApplyEffect(Effect effect, Spell sourceSpell, int sourceSlotIndex, float damageMult)
         {
-            if (effect.Type == SpellEffectType.FireProjectile)
+            if (effect.Type == EffectType.FireProjectile)
             {
                 Fire(_targetingReticle, effect.ProjectileData, effect.ProjectileModifiers, damageMult);
             }
-            else if (effect.Type == SpellEffectType.CastSlot)
+            else if (effect.Type == EffectType.CastSlot)
             {
                 int targetSlot = sourceSlotIndex + effect.SlotOffset;
                 var spells = GameManager.Spells;
@@ -151,7 +152,7 @@ namespace Krooq.PlanetDefense
                     }
                 }
             }
-            else if (effect.Type == SpellEffectType.ModifyNextSpell)
+            else if (effect.Type == EffectType.ModifyNextSpell)
             {
                 _nextSpellDamageMultiplier *= effect.DamageMultiplier;
             }

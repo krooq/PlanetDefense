@@ -15,6 +15,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private bool _dirty = true;
 
         protected SpellBarUI SpellBarUI => this.GetSingleton<SpellBarUI>();
+        protected RelicBarUI RelicBarUI => this.GetSingleton<RelicBarUI>();
         protected GameManager GameManager => this.GetSingleton<GameManager>();
 
         protected CanvasGroup CanvasGroup => this.GetCachedComponent<CanvasGroup>();
@@ -57,13 +58,25 @@ namespace Krooq.PlanetDefense
 
             // Refresh Active Slots
             if (SpellBarUI != null) SpellBarUI.Refresh();
+            if (RelicBarUI != null) RelicBarUI.Refresh();
 
-            // Populate Available
+            // Populate Available Spells
             if (GameManager.Data.AvailableSpells != null)
             {
                 foreach (var tile in GameManager.Data.AvailableSpells)
                 {
                     var ui = GameManager.Spawn(GameManager.Data.SpellTilePrefab);
+                    ui.transform.SetParent(_itemContainer, false);
+                    ui.Init(tile, true);
+                }
+            }
+
+            // Populate Available Relics
+            if (GameManager.Data.AvailableRelics != null)
+            {
+                foreach (var tile in GameManager.Data.AvailableRelics)
+                {
+                    var ui = GameManager.Spawn(GameManager.Data.RelicTilePrefab);
                     ui.transform.SetParent(_itemContainer, false);
                     ui.Init(tile, true);
                 }

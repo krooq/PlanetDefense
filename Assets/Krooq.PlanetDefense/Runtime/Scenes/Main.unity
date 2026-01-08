@@ -1935,6 +1935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 633383454}
+  - component: {fileID: 633383458}
   - component: {fileID: 633383455}
   - component: {fileID: 633383457}
   m_Layer: 5
@@ -2001,6 +2002,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &633383458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633383453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a75dd449e074054fa36c4c54a1d9564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.RelicBarUI
+  _slotContainer: {fileID: 633383454}
 --- !u!1 &648601053
 GameObject:
   m_ObjectHideFlags: 0
@@ -3868,6 +3882,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _relics: []
   _selectedWeapon: {fileID: 0}
 --- !u!1 &1510782250
 GameObject:
@@ -4498,7 +4513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e714d3840ff9454c9ed77fde3111fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.UpgradeUI
-  _spellSlotContainer: {fileID: 1740077605}
+  _slotContainer: {fileID: 1740077605}
 --- !u!114 &1740077608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4516,7 +4531,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 20
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1

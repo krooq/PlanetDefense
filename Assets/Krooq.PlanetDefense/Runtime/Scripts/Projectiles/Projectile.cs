@@ -47,9 +47,9 @@ namespace Krooq.PlanetDefense
             _weaponData = weaponData;
             _direction = direction;
             _tags.Clear();
-            _modifiers = new List<Modifier>(modifiers);
+            _modifiers.Clear();
             _target = null;
-            gameObject.SetActive(true);
+            GameManager.Despawn(_model);
 
             if (_weaponData.ProjectileModelPrefab != null)
             {
@@ -125,18 +125,6 @@ namespace Krooq.PlanetDefense
         public void AddTag(string tag) => _tags.Add(tag);
         public void RemoveTag(string tag) => _tags.Remove(tag);
         public bool HasTag(string tag) => _tags.Contains(tag);
-
-        protected void OnDisable()
-        {
-            if (_model != null)
-            {
-                GameManager.Despawn(_model);
-                _model = null;
-            }
-            _tags.Clear();
-            _modifiers.Clear();
-            _weaponData = null;
-        }
 
         public void SpawnChild(GameObject prefab, int count)
         {
@@ -238,7 +226,7 @@ namespace Krooq.PlanetDefense
             gameObject.SetActive(false);
             await UniTask.Delay(5000, cancellationToken: this.GetCancellationTokenOnDestroy()).SuppressCancellationThrow();
 
-            if (GameManager != null) GameManager.Despawn(gameObject);
+            if (this != null && GameManager != null) GameManager.Despawn(gameObject);
         }
 
         private void Explode()
