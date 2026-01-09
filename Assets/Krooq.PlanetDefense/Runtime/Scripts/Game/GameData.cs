@@ -31,10 +31,6 @@ namespace Krooq.PlanetDefense
         [SerializeField] private StatData _explosionDamageMultStat;
         [SerializeField] private StatData _splitCountStat;
 
-        [Header("Cannon")]
-        [SerializeField] private float _moveSpeed = 5f;
-        [SerializeField] private float _rotationSpeed = 10f;
-
         [Header("Threats")]
         [SerializeField] private Threat _threatPrefab;
         [SerializeField] private List<ThreatData> _threats;
@@ -57,11 +53,6 @@ namespace Krooq.PlanetDefense
         [SerializeField] private float _spawnRateDecreasePerWave = 0.1f;
         [SerializeField] private float _minSpawnRate = 0.2f;
 
-        [Header("Shop")]
-        [SerializeField] private List<SpellData> _availableSpells;
-        [SerializeField] private int _maxSlots = 4;
-        [SerializeField] private SpellTileUI _spellTilePrefab;
-        [SerializeField] private SpellSlotUI _spellSlotPrefab;
 
         [Header("Audio")]
         [SerializeField] private AudioSource _audioSourcePrefab;
@@ -87,9 +78,6 @@ namespace Krooq.PlanetDefense
         public StatData ExplosionDamageMultStat => _explosionDamageMultStat;
         public StatData SplitCountStat => _splitCountStat;
 
-        public float MoveSpeed => _moveSpeed;
-        public float RotationSpeed => _rotationSpeed;
-
         public float ThreatSpawnHeight => _threatSpawnHeight;
         public float ThreatSpawnWidth => _threatSpawnWidth;
 
@@ -98,6 +86,12 @@ namespace Krooq.PlanetDefense
         public float BaseSpawnRate => _baseSpawnRate;
         public float SpawnRateDecreasePerWave => _spawnRateDecreasePerWave;
         public float MinSpawnRate => _minSpawnRate;
+
+        [Header("Spells")]
+        [SerializeField] private List<SpellData> _availableSpells;
+        [SerializeField] private int _maxSlots = 4;
+        [SerializeField] private SpellTileUI _spellTilePrefab;
+        [SerializeField] private SpellSlotUI _spellSlotPrefab;
 
         public List<SpellData> AvailableSpells => _availableSpells;
         public int MaxSlots => _maxSlots;
@@ -118,18 +112,18 @@ namespace Krooq.PlanetDefense
         public RelicSlotUI RelicSlotPrefab => _relicSlotPrefab;
         public List<RelicData> StartingRelics => _startingRelics;
 
-        [Header("Towers")]
-        [SerializeField] private List<CasterData> _availableTowers;
-        [SerializeField] private int _maxTowerSlots = 3;
-        [SerializeField] private CasterTileUI _towerTilePrefab;
-        [SerializeField] private CasterSlotUI _towerSlotPrefab;
-        [SerializeField] private List<CasterData> _startingTowers;
+        [Header("Casters")]
+        [SerializeField] private List<CasterData> _availableCasters;
+        [SerializeField] private int _maxCasterSlots = 3;
+        [SerializeField] private CasterTileUI _casterTilePrefab;
+        [SerializeField] private CasterSlotUI _casterSlotPrefab;
+        [SerializeField] private List<CasterData> _startingCasters;
 
-        public List<CasterData> AvailableTowers => _availableTowers;
-        public int MaxCasterSlots => _maxTowerSlots;
-        public CasterTileUI CasterTilePrefab => _towerTilePrefab;
-        public CasterSlotUI CasterSlotPrefab => _towerSlotPrefab;
-        public List<CasterData> StartingTowers => _startingTowers;
+        public List<CasterData> AvailableCasters => _availableCasters;
+        public int MaxCasterSlots => _maxCasterSlots;
+        public CasterTileUI CasterTilePrefab => _casterTilePrefab;
+        public CasterSlotUI CasterSlotPrefab => _casterSlotPrefab;
+        public List<CasterData> StartingCasters => _startingCasters;
     }
 }
 

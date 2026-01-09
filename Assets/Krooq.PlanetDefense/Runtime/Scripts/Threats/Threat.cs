@@ -14,7 +14,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private ThreatModel _model;
 
         protected GameManager GameManager => this.GetSingleton<GameManager>();
-        public PlayerBase PlayerBase => this.GetSingleton<PlayerBase>();
+        public PlayerTower PlayerBase => this.GetSingleton<PlayerTower>();
         public Rigidbody2D Rigidbody2D => this.GetCachedComponent<Rigidbody2D>();
 
         public float Speed => _speed;
@@ -79,7 +79,7 @@ namespace Krooq.PlanetDefense
                 building.TakeDamage(1);
                 Die(false);
             }
-            else if (go.TryGetComponent<PlayerBase>(out var playerBase))
+            else if (go.TryGetComponent<PlayerTower>(out var playerBase))
             {
                 playerBase.TakeDamage(1);
                 Die(false);

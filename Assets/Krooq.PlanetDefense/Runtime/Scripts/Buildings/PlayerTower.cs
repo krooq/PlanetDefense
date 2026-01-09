@@ -4,7 +4,7 @@ using Krooq.Core;
 
 namespace Krooq.PlanetDefense
 {
-    public class PlayerBase : MonoBehaviour
+    public class PlayerTower : MonoBehaviour
     {
         protected Player Player => this.GetSingleton<Player>();
 

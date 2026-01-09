@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d99790ea07b204dacdb7288dd98a5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 138c4f16bf235ca49a6000970c202003, type: 3}
   m_Name: Magic Missile
   m_EditorClassIdentifier: Krooq.PlanetDefense::Krooq.PlanetDefense.Spell
   _spellName: Magic Missile
   _description: 
-  _icon: {fileID: 21300000, guid: 01d64746f7890a84bbf2c65a59274d42, type: 3}
+  _icon: {fileID: 0}
   _shopCost: 0
   _manaCost: 1
   _cooldown: 1

@@ -9,10 +9,8 @@ namespace Krooq.PlanetDefense
     public class PlayerCaster : Caster
     {
         [SerializeField] private Transform _pivot;
-        [SerializeField] private PlayerTargetingReticle _targetingReticle;
 
-        public override ITargetingInfo TargetingInfo => _targetingReticle;
-        public PlayerTargetingReticle TargetingReticle => _targetingReticle;
+        public override ITargetingInfo TargetingInfo => Player.TargetingReticle;
 
         [SerializeField, ReadOnly] private int _selectedSlotIndex = 0;
         [SerializeField, ReadOnly] private SpellData _lastCastSpell;
@@ -30,7 +28,7 @@ namespace Krooq.PlanetDefense
         protected override void RegenMana() { }
         protected override void PerformTargeting() { }
 
-        public void Aim(Vector3 targetPosition, float rotationSpeed)
+        public void Aim(Vector3 targetPosition)
         {
             var dir = (targetPosition - _pivot.position).normalized;
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f; // Assuming sprite points up

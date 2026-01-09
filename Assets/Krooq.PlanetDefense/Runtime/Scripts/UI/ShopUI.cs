@@ -85,9 +85,9 @@ namespace Krooq.PlanetDefense
             }
 
             // Populate Available Towers
-            if (GameManager.Data.AvailableTowers != null)
+            if (GameManager.Data.AvailableCasters != null)
             {
-                foreach (var tile in GameManager.Data.AvailableTowers)
+                foreach (var tile in GameManager.Data.AvailableCasters)
                 {
                     var ui = GameManager.Spawn(GameManager.Data.CasterTilePrefab);
                     ui.transform.SetParent(_itemContainer, false);
