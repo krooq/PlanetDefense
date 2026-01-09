@@ -18,7 +18,7 @@ namespace Krooq.PlanetDefense
 
         public ThreatMovement(ThreatMovementType type)
         {
-
+            _type = type;
         }
 
         public void Move(Threat threat)

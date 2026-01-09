@@ -12,8 +12,6 @@ namespace Krooq.PlanetDefense
 
         public override ITargetingInfo TargetingInfo => Player.TargetingReticle;
 
-        [SerializeField, ReadOnly] private SpellData _lastCastSpell;
-
         protected Player Player => this.GetSingleton<Player>();
 
         protected override void Update()
@@ -40,10 +38,15 @@ namespace Krooq.PlanetDefense
             if (Player.Inputs.ClickAction.WasPressedThisFrame())
             {
                 CastSpell();
+                Player.Attack();
             }
 
             // Quick Casting
-            if (Player.Inputs.QuickCast1Action.WasPressedThisFrame()) CastSpell();
+            if (Player.Inputs.QuickCast1Action.WasPressedThisFrame())
+            {
+                CastSpell();
+                Player.Attack();
+            }
         }
 
         public override IEnumerable<IAbilitySource> AbilitySources
@@ -59,12 +62,6 @@ namespace Krooq.PlanetDefense
                 foreach (var abilitySource in base.AbilitySources)
                     yield return abilitySource;
             }
-        }
-
-        protected override void ProcessSpell(SpellData spell)
-        {
-            base.ProcessSpell(spell);
-            _lastCastSpell = spell;
         }
     }
 }

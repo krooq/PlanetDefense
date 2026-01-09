@@ -22,7 +22,11 @@ namespace Krooq.PlanetDefense
         public void Update()
         {
             if (_threat == null) return;
-            if (_threat.Data.MovementType != ThreatMovementType.Ground) return;
+            if (_threat.Data.MovementType != ThreatMovementType.Ground)
+            {
+                SpringTransform.enabled = false;
+                return;
+            }
             if (Time.time >= _nextBumpTime)
             {
                 SpringTransform.BumpPosition(Vector3.up * 10f);

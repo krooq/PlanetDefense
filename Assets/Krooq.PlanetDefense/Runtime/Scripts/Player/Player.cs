@@ -3,11 +3,13 @@ using Krooq.Common;
 using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using System;
 
 namespace Krooq.PlanetDefense
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private PlayerTower _tower;
         [SerializeField] private PlayerTargetingReticle _targetingReticle;
 
         [SerializeField, ReadOnly] private int _currentHealth;
@@ -17,8 +19,7 @@ namespace Krooq.PlanetDefense
         [SerializeField, ReadOnly] private CasterData[] _casters;
         [SerializeField, ReadOnly] private ProjectileData _selectedWeapon;
         [SerializeField, ReadOnly] private Transform[] _casterSlots;
-
-        private Caster[] _spawnedCasters;
+        [SerializeField, ReadOnly] private Caster[] _spawnedCasters;
 
         protected GameManager GameManager => this.GetSingleton<GameManager>();
 
@@ -29,10 +30,11 @@ namespace Krooq.PlanetDefense
         public IReadOnlyList<CasterData> Casters => _casters;
         public ProjectileData SelectedWeapon => _selectedWeapon;
 
+        public PlayerTower PlayerTower => _tower;
+        public PlayerTargetingReticle TargetingReticle => _targetingReticle;
         public PlayerInputs Inputs => this.GetCachedComponent<PlayerInputs>();
         public PlayerCaster PlayerCaster => this.GetCachedComponent<PlayerCaster>();
         public AbilityController AbilityController => this.GetCachedComponent<AbilityController>();
-        public PlayerTargetingReticle TargetingReticle => _targetingReticle;
 
         protected void Init()
         {
@@ -172,5 +174,10 @@ namespace Krooq.PlanetDefense
         }
 
         public void SelectWeapon(ProjectileData weapon) => _selectedWeapon = weapon;
+
+        public void Attack()
+        {
+            PlayerTower.Attack();
+        }
     }
 }

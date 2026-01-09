@@ -16,7 +16,7 @@ MonoBehaviour:
   _baseHealth: 10
   _baseMana: 10
   _playerCasterData: {fileID: 11400000, guid: a7b2efb70acc79147836aa7a2b76d396, type: 2}
-  _casterPrefab: {fileID: 1475530808638175228, guid: 518425689642eef458fdb2adaf29dde6, type: 3}
+  _audioSourcePrefab: {fileID: 6661895296412262151, guid: 60f5935b6112d794bbd5632723a85de9, type: 3}
   _projectilePrefab: {fileID: 8491378065012396037, guid: 0ac105268fcd8d548aa6cf0f11ccd45b, type: 3}
   _damageStat: {fileID: 11400000, guid: a6594e0ea2d6c7c4e9c6a00a6ee713d6, type: 2}
   _speedStat: {fileID: 11400000, guid: ca8cd83cafaba674e920021faa0df61b, type: 2}
@@ -30,6 +30,8 @@ MonoBehaviour:
   _threatPrefab: {fileID: -3283402286077190664, guid: 52dd661294498034e83e684275db9a7e, type: 3}
   _threats:
   - {fileID: 11400000, guid: 782d0a51ebf816b49ab9ea3b2262e1c1, type: 2}
+  - {fileID: 11400000, guid: cc33b3d0ea776f7438cd5af36df1f39e, type: 2}
+  - {fileID: 11400000, guid: bfe896e32d9d4744c986afb21e325712, type: 2}
   _threatSpawnHeight: 10
   _threatSpawnWidth: 16
   _groundUnitSpawnHeightMin: 3
@@ -40,18 +42,16 @@ MonoBehaviour:
   _baseSpawnRate: 2
   _spawnRateDecreasePerWave: 0.1
   _minSpawnRate: 0.2
-  _audioSourcePrefab: {fileID: 6661895296412262151, guid: 60f5935b6112d794bbd5632723a85de9, type: 3}
-  _availableSpells:
-  - {fileID: 11400000, guid: 87be09573ef0bc04e818a8ca9336716b, type: 2}
-  _maxSlots: 4
+  _spells: []
   _spellTilePrefab: {fileID: 3834534628122088379, guid: fa161c7ab58755646bfa73ebbba2fe04, type: 3}
   _spellSlotPrefab: {fileID: 1065834685477414293, guid: f2b82f5477973cd4d84159641376818d, type: 3}
-  _availableRelics: []
+  _relics: []
   _maxRelicSlots: 3
   _relicTilePrefab: {fileID: -6979386731094417715, guid: 5ed81e4192917d54fa4ba3eef29ccd13, type: 3}
   _relicSlotPrefab: {fileID: -8281811172535944241, guid: 83050a82f24310f4ab70e01aa42e44ac, type: 3}
   _startingRelics: []
-  _availableCasters: []
+  _casterPrefab: {fileID: 1475530808638175228, guid: 518425689642eef458fdb2adaf29dde6, type: 3}
+  _casters: []
   _maxCasterSlots: 2
   _casterTilePrefab: {fileID: 2777188109922713124, guid: 32c6520bcdaff0543ab0b3225c45fdb1, type: 3}
   _casterSlotPrefab: {fileID: 6656121552729337604, guid: ec8c11436c720084eaf1cd1020d685f5, type: 3}

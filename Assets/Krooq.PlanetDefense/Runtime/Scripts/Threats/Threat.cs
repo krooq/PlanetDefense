@@ -76,14 +76,9 @@ namespace Krooq.PlanetDefense
         protected void OnTriggerEnter2D(Collider2D other)
         {
             var go = other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
-            if (go.TryGetComponent<Building>(out var building))
+            if (go.TryGetComponent<PlayerTower>(out var playerTower))
             {
-                building.TakeDamage(1);
-                Die(false);
-            }
-            else if (go.TryGetComponent<PlayerTower>(out var playerBase))
-            {
-                playerBase.TakeDamage(1);
+                playerTower.TakeDamage(1);
                 Die(false);
             }
             else if (go.layer == LayerMask.NameToLayer("Ground"))

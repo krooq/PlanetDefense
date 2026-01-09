@@ -44,7 +44,7 @@ TagManager:
   - name: Background
     uniqueID: 1798838881
     locked: 0
-  - name: Buildings
+  - name: Tower
     uniqueID: 1488393723
     locked: 0
   - name: Threats
